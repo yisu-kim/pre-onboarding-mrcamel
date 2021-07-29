@@ -1,1 +1,1 @@
-### Wiki는 조금만 있다가 작성하도록 할게요!
+six-sense 1_mrCamel_team1
