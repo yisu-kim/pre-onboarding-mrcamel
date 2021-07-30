@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import ProductList from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
-import RecentListPage from "./pages/RecentListPage";
+import RecentListPage from "./pages/RecentListPage/RecentListPage";
 
 class App extends Component {
   render() {

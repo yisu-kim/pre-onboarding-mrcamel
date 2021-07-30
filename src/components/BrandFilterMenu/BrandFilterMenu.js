@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { ORIGINAL_DATA } from "../../utils/constants";
 import { Checkbox } from "antd";
+import { Collapse } from "antd";
+const { Panel } = Collapse;
 
 export default class BrandFilterMenu extends Component {
   state = {
@@ -30,12 +31,23 @@ export default class BrandFilterMenu extends Component {
 
     return (
       <div>
-        {properties.map((property) => (
-          <Checkbox onChange={() => this.handleToggle(property.value)}>
-            {property.label}
-          </Checkbox>
-        ))}
+        <Collapse defaultActiveKey={["1"]}>
+          <Panel style={panelStyle} header="Brands" key="1">
+            {properties.map((property, index) => (
+              <Checkbox
+                key={index}
+                onChange={() => this.handleToggle(property.value)}
+              >
+                {property.label}
+              </Checkbox>
+            ))}
+          </Panel>
+        </Collapse>
       </div>
     );
   }
 }
+
+const panelStyle = {
+  marginBottom: "10px",
+};
