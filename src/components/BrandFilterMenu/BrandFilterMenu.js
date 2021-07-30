@@ -8,34 +8,18 @@ export default class BrandFilterMenu extends Component {
     checked: [],
   };
 
-  onSelectChange = (e) => {
-    console.log(e.target.checked);
-  };
-
-  loadData = async () => {
-    const data = await ORIGINAL_DATA;
-    // console.log("data: ", data);
-    this.setState({
-      datas: data,
-    });
-  };
-
   handleToggle = (brand) => {
     const currentIndex = this.state.checked.indexOf(brand);
     const newChecked = [...this.state.checked];
+
     if (currentIndex === -1) newChecked.push(brand);
     else newChecked.splice(currentIndex, 1);
 
-    console.log("newChecked: ", newChecked);
     this.setState({
       checked: newChecked,
     });
+    this.props.handleFilters(newChecked);
   };
-
-  componentDidMount() {
-    // console.log("이거 왜 안 나옴?");
-    this.loadData();
-  }
 
   render() {
     const properties = [
@@ -44,29 +28,13 @@ export default class BrandFilterMenu extends Component {
       { label: "스톤아일랜드", value: "스톤아일랜드" },
     ];
 
-    const { datas, checked } = this.state;
-
-    let filteredList;
-
-    if (checked.length === 0) filteredList = datas;
-    else filteredList = datas.filter((data) => checked.includes(data.brand));
-
     return (
       <div>
         {properties.map((property) => (
-          <Checkbox
-            onChange={() => this.handleToggle(property.value)}
-            // checked={checked}
-          >
+          <Checkbox onChange={() => this.handleToggle(property.value)}>
             {property.label}
           </Checkbox>
         ))}
-
-        <ul style={{ fontSize: "20px" }}>
-          {filteredList?.map((data) => (
-            <li>{data.title}</li>
-          ))}
-        </ul>
       </div>
     );
   }
