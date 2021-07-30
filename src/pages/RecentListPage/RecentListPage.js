@@ -4,6 +4,7 @@ import DislikeFilter from "../../components/DislikeFilter/DisLikeFilter";
 import { style } from "./RecentListPageStyle";
 import { ORIGINAL_DATA } from "../../utils/constants";
 import { Row, Col, Card } from "antd";
+import { Link } from "react-router-dom";
 const { Meta } = Card;
 const { RecentListContainer, ListTitle } = style;
 
@@ -51,20 +52,22 @@ export default class RecentListPage extends Component {
           </Row>
 
           <Row gutter={[16, 16]}>
-            {filteredList.map((data) => (
-              <Col lg={6} md={8} xs={24}>
-                <Card
-                  hoverable={true}
-                  cover={
-                    <img
-                      alt="example"
-                      style={cardImageStyle}
-                      src={`${data.imgUrl}`}
-                    />
-                  }
-                >
-                  <Meta title={data.title} description={`${data.brand}`} />
-                </Card>
+            {filteredList.map((data, index) => (
+              <Col lg={6} md={8} xs={24} key={index}>
+                <Link to={`/product/${data.id}`}>
+                  <Card
+                    hoverable={true}
+                    cover={
+                      <img
+                        alt="example"
+                        style={cardImageStyle}
+                        src={`${data.imgUrl}`}
+                      />
+                    }
+                  >
+                    <Meta title={data.title} description={`${data.brand}`} />
+                  </Card>
+                </Link>
               </Col>
             ))}
           </Row>

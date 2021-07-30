@@ -33,8 +33,11 @@ export default class BrandFilterMenu extends Component {
       <div>
         <Collapse defaultActiveKey={["1"]}>
           <Panel style={panelStyle} header="Brands" key="1">
-            {properties.map((property) => (
-              <Checkbox onChange={() => this.handleToggle(property.value)}>
+            {properties.map((property, index) => (
+              <Checkbox
+                key={index}
+                onChange={() => this.handleToggle(property.value)}
+              >
                 {property.label}
               </Checkbox>
             ))}
