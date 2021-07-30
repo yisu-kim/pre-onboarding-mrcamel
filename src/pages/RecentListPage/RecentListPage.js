@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import BrandFilterMenu from "../../components/BrandFilterMenu/BrandFilterMenu";
-import DislikeFilter from "../../components/DislikeFilter/DisLikeFilter";
+import PropTypes from "prop-types";
+import BrandFilterMenu from "../../components/BrandFilterMenu";
+import DislikeFilter from "../../components/DislikeFilter";
 import { style } from "./RecentListPageStyle";
-import { ORIGINAL_DATA } from "../../utils/constants";
+import { LOCAL_STORAGE } from "../../utils/constants";
 import { Row, Col, Card } from "antd";
 import { Link } from "react-router-dom";
+import { getOriginalInfo } from "../../utils/getOriginalInfo";
 const { Meta } = Card;
 const { RecentListContainer, ListTitle } = style;
 
@@ -12,64 +14,90 @@ export default class RecentListPage extends Component {
   state = {
     datas: [],
     checked: [],
+    onlyInterestingProduct: false,
+    filteredDatas: [],
   };
 
-  loadData = async () => {
-    const data = await ORIGINAL_DATA;
+  getRecentList = () => {
     this.setState({
-      datas: data,
+      datas: LOCAL_STORAGE.get("recentList"),
     });
   };
 
-  handleFilters = (checked) => {
+  handleBrandFilters = (checked) => {
     this.setState({
       checked: checked,
     });
   };
 
+  handleDislikeFilter = (checked) => {
+    this.setState({
+      onlyInterestingProduct: checked,
+    });
+  };
+
   componentDidMount() {
-    this.loadData();
+    this.getRecentList();
   }
 
   render() {
-    const { datas, checked } = this.state;
+    const { datas, checked, onlyInterestingProduct } = this.state;
+    let products = datas;
     let filteredList;
 
-    if (checked.length === 0) filteredList = datas;
-    else filteredList = datas.filter((data) => checked.includes(data.brand));
+    if (onlyInterestingProduct) {
+      products = products.filter((data) => data.dislike === false);
+    }
+
+    if (checked.length === 0) {
+      filteredList = products;
+    } else {
+      filteredList = products.filter((data) => {
+        const originalData = getOriginalInfo(data.id);
+        return checked.includes(originalData.brand);
+      });
+    }
+
     return (
       <div>
         <RecentListContainer>
           <ListTitle>상품 조회 목록 페이지</ListTitle>
 
           <Row gutter={[16, 16]}>
-            <Col lg={12} md={12} xs={24}>
-              <BrandFilterMenu handleFilters={this.handleFilters} />
+            <Col lg={16} md={16} xs={24}>
+              <BrandFilterMenu handleBrandFilters={this.handleBrandFilters} />
             </Col>
-            <Col lg={12} md={12} xs={24}>
-              <DislikeFilter />
+            <Col lg={8} md={8} xs={24}>
+              <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
             </Col>
           </Row>
 
           <Row gutter={[16, 16]}>
-            {filteredList.map((data, index) => (
-              <Col lg={6} md={8} xs={24} key={index}>
-                <Link to={`/product/${data.id}`}>
-                  <Card
-                    hoverable={true}
-                    cover={
-                      <img
-                        alt="example"
-                        style={cardImageStyle}
-                        src={`${data.imgUrl}`}
+            {filteredList.map((data) => {
+              const originalData = getOriginalInfo(data.id);
+
+              return (
+                <Col lg={6} md={8} xs={24} key={data.id}>
+                  <Link to={`/product/${data.id}`}>
+                    <Card
+                      hoverable={true}
+                      cover={
+                        <img
+                          alt="example"
+                          style={cardImageStyle}
+                          src={originalData.imgUrl}
+                        />
+                      }
+                    >
+                      <Meta
+                        title={originalData.title}
+                        description={originalData.brand}
                       />
-                    }
-                  >
-                    <Meta title={data.title} description={`${data.brand}`} />
-                  </Card>
-                </Link>
-              </Col>
-            ))}
+                    </Card>
+                  </Link>
+                </Col>
+              );
+            })}
           </Row>
         </RecentListContainer>
       </div>
@@ -79,4 +107,8 @@ export default class RecentListPage extends Component {
 
 const cardImageStyle = {
   height: "150px",
+};
+
+RecentListPage.propTypes = {
+  recentList: PropTypes.array,
 };

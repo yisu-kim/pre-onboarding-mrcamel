@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
+
 import React, { Component } from "react";
-import { Checkbox } from "antd";
-import { Collapse } from "antd";
+import { Checkbox, Collapse } from "antd";
 const { Panel } = Collapse;
 
 export default class BrandFilterMenu extends Component {
@@ -19,7 +20,7 @@ export default class BrandFilterMenu extends Component {
     this.setState({
       checked: newChecked,
     });
-    this.props.handleFilters(newChecked);
+    this.props.handleBrandFilters(newChecked);
   };
 
   render() {
