@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Checkbox } from "antd";
+import { Card, Checkbox } from "antd";
 
 export default class DislikeFilter extends Component {
   constructor() {
@@ -14,9 +14,9 @@ export default class DislikeFilter extends Component {
 
   render() {
     return (
-      <div>
+      <Card size="small">
         <Checkbox onChange={this.handleCheckbox}>관심없는 상품 숨기기</Checkbox>
-      </div>
+      </Card>
     );
   }
 }

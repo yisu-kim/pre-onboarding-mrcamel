@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
+
 import React, { Component } from "react";
-import { ORIGINAL_DATA } from "../../utils/constants";
-import { Checkbox } from "antd";
+import { Checkbox, Collapse } from "antd";
+const { Panel } = Collapse;
 
 export default class BrandFilterMenu extends Component {
   state = {
@@ -18,7 +20,7 @@ export default class BrandFilterMenu extends Component {
     this.setState({
       checked: newChecked,
     });
-    this.props.handleFilters(newChecked);
+    this.props.handleBrandFilters(newChecked);
   };
 
   render() {
@@ -30,12 +32,23 @@ export default class BrandFilterMenu extends Component {
 
     return (
       <div>
-        {properties.map((property) => (
-          <Checkbox onChange={() => this.handleToggle(property.value)}>
-            {property.label}
-          </Checkbox>
-        ))}
+        <Collapse defaultActiveKey={["1"]}>
+          <Panel style={panelStyle} header="Brands" key="1">
+            {properties.map((property, index) => (
+              <Checkbox
+                key={index}
+                onChange={() => this.handleToggle(property.value)}
+              >
+                {property.label}
+              </Checkbox>
+            ))}
+          </Panel>
+        </Collapse>
       </div>
     );
   }
 }
+
+const panelStyle = {
+  marginBottom: "10px",
+};
