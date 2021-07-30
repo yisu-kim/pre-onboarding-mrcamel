@@ -3,4 +3,4 @@ import { getOriginalData } from "./getOriginalData";
 
 export const LOCAL_STORAGE = storage(localStorage);
 
-export const originalData = getOriginalData();
+export const ORIGINAL_DATA = getOriginalData();
