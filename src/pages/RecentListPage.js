@@ -4,10 +4,22 @@ import DislikeFilter from "../components/DislikeFilter";
 import { ORIGINAL_DATA } from "../utils/constants";
 
 export default class RecentListPage extends Component {
-  state = {
-    datas: [],
-    checked: [],
-  };
+  constructor() {
+    super();
+    this.state = {
+      onlyInterestingProduct: false,
+      datas: [],
+      checked: []
+    };
+    this.handleDislikeFilter = this.handleDislikeFilter.bind(this);
+    this.handleFilters = this.handleFilters.bind(this);
+  }
+
+  handleDislikeFilter(checked) {
+    this.setState({
+      onlyInterestingProduct: checked,
+    });
+  }
 
   loadData = async () => {
     const data = await ORIGINAL_DATA;
@@ -35,7 +47,7 @@ export default class RecentListPage extends Component {
     return (
       <div>
         <div>
-          <DislikeFilter />
+          <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
           <BrandFilterMenu handleFilters={this.handleFilters} />
         </div>
 
