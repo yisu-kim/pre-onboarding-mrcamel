@@ -1,5 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
-import { reset } from 'styled-reset';
+import { createGlobalStyle } from "styled-components";
+import { reset } from "styled-reset";
+import antd from "antd/dist/antd.css";
 
 export const GlobalStyle = createGlobalStyle`
 ${reset}
@@ -22,4 +23,5 @@ input, button {
 ol, ul, li {
   list-style: none;
 }
+${antd}
 `;
