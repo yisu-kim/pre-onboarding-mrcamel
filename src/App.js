@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import ProductList from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import RecentListPage from "./pages/RecentListPage";
@@ -11,9 +11,12 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Route exact path="/">
+          <Redirect to="/product" />
+        </Route>
         <Route exact path="/product" component={ProductList} />
-        <Route exact path="/product/:productId" component={ProductDetailPage} />
-        <Route exact path="/recent-list" component={RecentListPage} />
+        <Route path="/product/:productId" component={ProductDetailPage} />
+        <Route path="/recent-list" component={RecentListPage} />
       </div>
     );
   }
