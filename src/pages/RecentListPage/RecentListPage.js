@@ -43,10 +43,10 @@ export default class RecentListPage extends Component {
           <ListTitle>상품 조회 목록 페이지</ListTitle>
 
           <Row gutter={[16, 16]}>
-            <Col lg={12} xs={24}>
+            <Col lg={12} md={12} xs={24}>
               <BrandFilterMenu handleFilters={this.handleFilters} />
             </Col>
-            <Col lg={12} xs={24}>
+            <Col lg={12} md={12} xs={24}>
               <DislikeFilter />
             </Col>
           </Row>
