@@ -4,7 +4,7 @@ import BrandFilterMenu from "../../components/BrandFilterMenu";
 import DislikeFilter from "../../components/DislikeFilter";
 import { style } from "./RecentListPageStyle";
 import { LOCAL_STORAGE } from "../../utils/constants";
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, message } from "antd";
 import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
 const { Meta } = Card;
@@ -34,6 +34,12 @@ export default class RecentListPage extends Component {
     this.setState({
       onlyInterestingProduct: checked,
     });
+  };
+
+  handleAccessPopup = (dislike) => {
+    if (dislike) {
+      message.warning("관심없는 상품으로 등록하신 상품입니다.", 1);
+    }
   };
 
   componentDidMount() {
@@ -78,7 +84,18 @@ export default class RecentListPage extends Component {
 
               return (
                 <Col lg={6} md={8} xs={24} key={data.id}>
-                  <Link to={`/product/${data.id}`}>
+                  <Link
+                    to={(location) => {
+                      if (data.dislike) {
+                        return { ...location };
+                      }
+                      return {
+                        ...location,
+                        pathname: `/product/${data.id}`,
+                      };
+                    }}
+                    onClick={() => this.handleAccessPopup(data.dislike)}
+                  >
                     <Card
                       hoverable={true}
                       cover={
