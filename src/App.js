@@ -8,9 +8,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route exact path='/' component={ProductList} />
-        <Route path='/:productId' component={ProductDetailPage} />
-        <Route path='/recent-list' component={RecentListPage} />
+        <Route exact path="/product" component={ProductList} />
+        <Route exact path="/product/:productId" component={ProductDetailPage} />
+        <Route exact path="/recent-list" component={RecentListPage} />
       </div>
     );
   }
