@@ -4,9 +4,10 @@ import BrandFilterMenu from "../../components/BrandFilterMenu";
 import DislikeFilter from "../../components/DislikeFilter";
 import { style } from "./RecentListPageStyle";
 import { LOCAL_STORAGE } from "../../utils/constants";
-import { Row, Col, Card, message } from "antd";
+import { Row, Col, Card, message, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
+
 const { Meta } = Card;
 const { RecentListContainer, ListTitle } = style;
 
@@ -16,6 +17,7 @@ export default class RecentListPage extends Component {
     checked: [],
     onlyInterestingProduct: false,
     filteredDatas: [],
+    priceChecked: false,
   };
 
   getRecentList = () => {
@@ -42,14 +44,24 @@ export default class RecentListPage extends Component {
     }
   };
 
+  handlePriceSort = (e) => {
+    this.setState({
+      priceChecked: e.target.checked,
+    });
+  };
+
   componentDidMount() {
     this.getRecentList();
   }
 
   render() {
-    const { datas, checked, onlyInterestingProduct } = this.state;
+    const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
     let products = datas;
     let filteredList;
+
+    const compareFunction = (a, b) => {
+      return a.price - b.price;
+    };
 
     if (onlyInterestingProduct) {
       products = products.filter((data) => data.dislike === false);
@@ -57,11 +69,18 @@ export default class RecentListPage extends Component {
 
     if (checked.length === 0) {
       filteredList = products;
+      if (priceChecked) {
+        filteredList = products.sort(compareFunction);
+      }
     } else {
       filteredList = products.filter((data) => {
         const originalData = getOriginalInfo(data.id);
         return checked.includes(originalData.brand);
       });
+
+      if (priceChecked) {
+        filteredList = filteredList.sort(compareFunction);
+      }
     }
 
     return (
@@ -73,8 +92,14 @@ export default class RecentListPage extends Component {
             <Col lg={16} md={16} xs={24}>
               <BrandFilterMenu handleBrandFilters={this.handleBrandFilters} />
             </Col>
+
             <Col lg={8} md={8} xs={24}>
               <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
+              <Card size="small">
+                <Checkbox onChange={this.handlePriceSort}>
+                  낮은 가격 순
+                </Checkbox>
+              </Card>
             </Col>
           </Row>
 
