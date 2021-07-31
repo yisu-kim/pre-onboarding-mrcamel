@@ -52,4 +52,4 @@
 
 ## Working
 
-https://1-mrcamel-team1.netlify.app/product
+https://1-mrcamel-team1.netlify.app/
