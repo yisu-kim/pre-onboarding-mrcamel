@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { Component } from "react";
-import { ORIGINAL_DATA } from "../../utils/constants";
+import { LOCAL_STORAGE } from "../../utils/constants";
 import { Row, Col, Typography, Button } from "antd";
 import { ProductListContainer } from "./ProductListPageStyle";
 import { UserOutlined } from "@ant-design/icons";
@@ -11,13 +11,14 @@ const { Title } = Typography;
 
 export default class ProductListPage extends Component {
   state = {
-    products: [],
+    datas: [],
   };
 
-  loadData = async () => {
-    const data = await ORIGINAL_DATA;
+  getInterestList = () => {
     this.setState({
-      products: data,
+      datas: LOCAL_STORAGE.get("interestList").map((itemId) => ({
+        id: itemId,
+      })),
     });
   };
 
@@ -26,11 +27,11 @@ export default class ProductListPage extends Component {
   };
 
   componentDidMount() {
-    this.loadData();
+    this.getInterestList();
   }
 
   render() {
-    const { products } = this.state;
+    const { datas } = this.state;
 
     return (
       <div>
@@ -52,7 +53,7 @@ export default class ProductListPage extends Component {
             </Col>
           </Row>
 
-          <Product productList={products} />
+          <Product productList={datas} />
         </ProductListContainer>
       </div>
     );
