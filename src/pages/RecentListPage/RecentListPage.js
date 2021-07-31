@@ -15,11 +15,10 @@ import {
   Button,
   Select,
 } from "antd";
-import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
 import { RollbackOutlined } from "@ant-design/icons";
+import Product from "../../components/Product";
 
-const { Meta } = Card;
 const { Title } = Typography;
 const { Option } = Select;
 
@@ -31,7 +30,6 @@ export default class RecentListPage extends Component {
     filteredDatas: [],
     priceChecked: false,
     date: new Date(),
-    recentViewChecked: false,
   };
   update = () => {
     this.setState({
@@ -43,6 +41,7 @@ export default class RecentListPage extends Component {
       datas: LOCAL_STORAGE.get("recentList"),
     });
   };
+
   clearRecentList = () => {
     this.setState({
       datas: LOCAL_STORAGE.set("recentList", []),
@@ -69,13 +68,6 @@ export default class RecentListPage extends Component {
     });
   };
 
-  handleRecentView = (e) => {
-    this.setState({
-      recentViewChecked: e.target.checked,
-    });
-    console.log(this.state.recentViewChecked);
-  };
-
   // 이 함수입니다 유정님!
   onSelectChange = (value) => {
     console.log("selectedValue: ", value);
@@ -88,28 +80,39 @@ export default class RecentListPage extends Component {
     this.getRecentList();
     setInterval(this.update, 1000);
   }
+  // goProductListPage = () => {
+  //   this.props.history.push("/product");
+  // };
+
+  componentDidMount() {
+    this.getRecentList();
+
+    setInterval(this.update, 1000);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const hour = this.state.date.getHours();
     const minute = this.state.date.getMinutes();
     const second = this.state.date.getSeconds();
+
     if (hour + minute + second === 0) {
       if (prevState.date !== this.state.date) {
-        this.setState({
-          datas: LOCAL_STORAGE.set("recentList", []),
-        });
+        LOCAL_STORAGE.set("recentList", []),
+          this.setState({
+            datas: LOCAL_STORAGE.get("recentList"),
+          });
       }
     }
   }
   render() {
     const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
+
     let products = datas;
-    // console.log(datas);
-    if (datas.length !== 0) {
-      products = products.map((data) => {
-        const originalData = getOriginalInfo(data.id);
-        return { ...data, price: originalData.price };
-      });
-    }
+    products = products.map((data) => {
+      const originalData = getOriginalInfo(data.id);
+      return { ...data, price: originalData.price };
+    });
+
     let filteredList;
     const compareFunction = (a, b) => {
       return a.price - b.price;
@@ -167,38 +170,7 @@ export default class RecentListPage extends Component {
               </Card>
             </Col>
           </Row>
-          <Row gutter={[16, 16]}>
-            {filteredList &&
-              filteredList.map((data) => {
-                const originalData = getOriginalInfo(data.id);
-                return (
-                  <Col lg={6} md={8} xs={24} key={data.id}>
-                    <Link
-                      to={(location) => {
-                        if (data.dislike) {
-                          return { ...location };
-                        }
-                        return {
-                          ...location,
-                          pathname: `/product/${data.id}`,
-                        };
-                      }}
-                      onClick={() => this.handleAccessPopup(data.dislike)}
-                    >
-                      <Card
-                        hoverable={true}
-                        cover={<img alt="example" src={originalData.imgUrl} />}
-                      >
-                        <Meta
-                          title={originalData.title}
-                          description={originalData.brand}
-                        />
-                      </Card>
-                    </Link>
-                  </Col>
-                );
-              })}
-          </Row>
+          <Product productList={filteredList} />
         </RecentListContainer>
       </div>
     );
