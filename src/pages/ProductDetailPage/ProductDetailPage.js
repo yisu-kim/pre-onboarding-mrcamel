@@ -6,6 +6,11 @@ import {
   LOCAL_STORAGE,
 } from "../../utils/constants";
 import propTypes from "prop-types";
+import { Col, Row, Typography, Button } from "antd";
+import { DetailPageContainer } from "./ProductDetailPageStyle";
+import { UserOutlined } from "@ant-design/icons";
+
+const { Title } = Typography;
 import recentListStorage from "../../utils/storage/recentList";
 
 class ProductDetailPage extends Component {
@@ -39,6 +44,21 @@ class ProductDetailPage extends Component {
       },
     } = this.props;
 
+    const goRecentListPage = () => {
+      this.props.history.push("/recent-list");
+    };
+
+    const goProductListPage = () => {
+      this.props.history.push("/product");
+    };
+
+    const randomProduct = (interestList) => {
+      let temp = productId;
+      while (temp === productId) {
+        temp = Math.floor(Math.random() * interestList.length);
+      }
+      return interestList[temp] === undefined ? productId : interestList[temp];
+    };
     await recentListStorage.update(productId);
   }
 
@@ -98,16 +118,40 @@ class ProductDetailPage extends Component {
         {productId !== -1 &&
         productId < MAX_PRODUCT_ID &&
         productId >= MIN_PRODUCT_ID ? (
-          <div>
+          <DetailPageContainer>
+            <Row gutter={[16, 16]} type="flex">
+              <Col span={16}>
+                <Title>상품 상세 페이지</Title>
+              </Col>
+
+              <Col span={8} style={{ textAlign: "right" }}>
+                <Button
+                  type="primary"
+                  onClick={goProductListPage}
+                  style={{ right: "10px" }}
+                >
+                  {" "}
+                  상품 목록
+                </Button>
+                <Button
+                  type="primary"
+                  icon={<UserOutlined />}
+                  onClick={goRecentListPage}
+                >
+                  {" "}
+                  최근 본 상품 목록
+                </Button>
+              </Col>
+            </Row>
             <img src={original_data[productId].imgUrl} alt="productImage" />
             <div>{original_data[productId].title}</div>
             <div>{original_data[productId].brand}</div>
             <div>{original_data[productId].price}</div>
-            <button onClick={() => this.handleRandom(productId)}>Random</button>
-            <button onClick={() => this.handleDislike(productId)}>
+            <Button onClick={() => this.handleRandom(productId)}>Random</Button>
+            <Button onClick={() => this.handleDislike(productId)}>
               Dislike
-            </button>
-          </div>
+            </Button>
+          </DetailPageContainer>
         ) : (
           <div>잘못된 페이지입니다</div>
         )}
