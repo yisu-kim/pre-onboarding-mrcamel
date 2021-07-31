@@ -19,6 +19,7 @@ export default class Product extends Component {
 
   render() {
     const { productList } = this.props;
+
     return (
       <Row gutter={[16, 16]}>
         {productList.map((data) => {
@@ -44,7 +45,9 @@ export default class Product extends Component {
                 >
                   <Meta
                     title={originalData.title}
-                    description={originalData.price}
+                    description={`${originalData.price.toLocaleString(
+                      "ko-KR"
+                    )}원`}
                   />
                 </Card>
               </Link>
