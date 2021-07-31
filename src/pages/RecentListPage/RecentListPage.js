@@ -8,6 +8,7 @@ import { Row, Col, Card, message, Checkbox, Typography, Button } from "antd";
 import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
 import { RollbackOutlined } from "@ant-design/icons";
+import { getOriginalData } from "../../utils/getOriginalData";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -62,6 +63,11 @@ export default class RecentListPage extends Component {
   render() {
     const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
     let products = datas;
+    products = products.map((data) => {
+      const originalData = getOriginalInfo(data.id);
+      return { ...data, price: originalData.price };
+    });
+    console.log(products);
     let filteredList;
 
     const compareFunction = (a, b) => {
@@ -75,6 +81,11 @@ export default class RecentListPage extends Component {
     if (checked.length === 0) {
       filteredList = products;
       if (priceChecked) {
+        products = products.map((data) => {
+          const originalData = getOriginalInfo(data.id);
+          return { ...data, price: originalData.price };
+        });
+
         filteredList = products.sort(compareFunction);
       }
     } else {
@@ -84,6 +95,11 @@ export default class RecentListPage extends Component {
       });
 
       if (priceChecked) {
+        products = products.map((data) => {
+          const originalData = getOriginalInfo(data.id);
+          return { ...data, price: originalData.price };
+        });
+
         filteredList = filteredList.sort(compareFunction);
       }
     }
@@ -152,7 +168,7 @@ export default class RecentListPage extends Component {
                     >
                       <Meta
                         title={originalData.title}
-                        description={originalData.brand}
+                        description={originalData.price}
                       />
                     </Card>
                   </Link>
