@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { Checkbox, Collapse } from "antd";
+import { getUniqueBrand } from "../../utils/getUniqueBrand";
 const { Panel } = Collapse;
 
 export default class BrandFilterMenu extends Component {
@@ -24,11 +25,7 @@ export default class BrandFilterMenu extends Component {
   };
 
   render() {
-    const properties = [
-      { label: "나이키", value: "나이키" },
-      { label: "구찌", value: "구찌" },
-      { label: "스톤아일랜드", value: "스톤아일랜드" },
-    ];
+    const properties = getUniqueBrand();
 
     return (
       <div>
