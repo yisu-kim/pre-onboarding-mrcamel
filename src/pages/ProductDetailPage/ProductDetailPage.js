@@ -25,6 +25,8 @@ import {
 import { UserOutlined } from "@ant-design/icons";
 const { Title } = Typography;
 import recentListStorage from "../../utils/storage/recentList";
+import { Redirect } from "react-router-dom";
+
 class ProductDetailPage extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,7 @@ class ProductDetailPage extends Component {
       productId: "-1",
       original_data: ORIGINAL_DATA,
       disabled: false,
+      isBlocked: false,
     };
   }
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -62,6 +65,11 @@ class ProductDetailPage extends Component {
       },
     } = this.props;
     await recentListStorage.update(productId);
+
+    const recentItem = await recentListStorage.get(productId);
+    if (recentItem.dislike) {
+      this.setState({ isBlocked: true });
+    }
   }
   goRecentListPage = () => {
     this.props.history.push("/recent-list");
@@ -106,8 +114,14 @@ class ProductDetailPage extends Component {
     }
     this.props.history.push(`/product/${nextProductId}`);
   }
+
   render() {
-    const { productId, original_data, disabled } = this.state;
+    const { productId, original_data, disabled, isBlocked } = this.state;
+
+    if (isBlocked) {
+      return <Redirect to="/product" />;
+    }
+
     return (
       <DetailPageContainer>
         <Row gutter={[16, 16]} type="flex">

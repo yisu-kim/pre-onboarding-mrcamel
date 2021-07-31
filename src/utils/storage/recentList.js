@@ -1,5 +1,11 @@
 import { LOCAL_STORAGE } from "../constants";
 
+const get = async (productId) => {
+  const id = parseInt(productId);
+  const recentList = await LOCAL_STORAGE.get("recentList");
+  return recentList.filter((item) => item.id === id)[0];
+};
+
 const update = async (productId) => {
   const recentList = await LOCAL_STORAGE.get("recentList");
   if (!recentList) {
@@ -36,6 +42,7 @@ const dislike = async (productId) => {
 };
 
 export default {
+  get,
   update,
   dislike,
 };
