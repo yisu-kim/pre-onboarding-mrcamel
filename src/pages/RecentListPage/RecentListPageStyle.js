@@ -4,7 +4,6 @@ export const RecentListContainer = styled.div`
   max-width: 1100px;
   margin: 2rem auto;
   padding: 2rem;
-  text-align
 `;
 
 export const ListTitle = styled.h3`
@@ -12,8 +11,3 @@ export const ListTitle = styled.h3`
   font-size: 30px;
   padding: 20px 0;
 `;
-
-export const style = {
-  RecentListContainer,
-  ListTitle,
-};

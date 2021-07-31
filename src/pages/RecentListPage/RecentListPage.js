@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import BrandFilterMenu from "../../components/BrandFilterMenu";
 import DislikeFilter from "../../components/DislikeFilter";
-import { style } from "./RecentListPageStyle";
+import { RecentListContainer } from "./RecentListPageStyle";
 import { LOCAL_STORAGE } from "../../utils/constants";
-import { Row, Col, Card, message, Checkbox } from "antd";
+import { Row, Col, Card, message, Checkbox, Typography } from "antd";
 import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
 
 const { Meta } = Card;
-const { RecentListContainer, ListTitle } = style;
+const { Title } = Typography;
 
 export default class RecentListPage extends Component {
   state = {
@@ -86,7 +86,7 @@ export default class RecentListPage extends Component {
     return (
       <div>
         <RecentListContainer>
-          <ListTitle>상품 조회 목록 페이지</ListTitle>
+          <Title>상품 조회 목록 페이지</Title>
 
           <Row gutter={[16, 16]}>
             <Col lg={16} md={16} xs={24}>
