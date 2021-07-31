@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { override, addWebpackAlias } from "customize-cra";
 import addLessLoader from "customize-cra-less-loader";
 import { resolve } from "path";
