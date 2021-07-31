@@ -2,7 +2,7 @@ import { Card, Col, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { ORIGINAL_DATA } from "../../utils/constants";
+import { LOCAL_STORAGE, ORIGINAL_DATA } from "../../utils/constants";
 // import { getOriginalInfo } from "../../utils/getOriginalInfo";
 import { style } from "./RecentListPageStyle";
 const { RecentListContainer, ListTitle } = style;
@@ -18,6 +18,19 @@ export default class ProductList extends Component {
     });
   };
 
+  handleRecentList = async (data) => {
+    const recentItem = {
+      id: data.id,
+      dislike: false,
+    };
+    const newRecentList = removeDuplicatedItemById(
+      await LOCAL_STORAGE.get("recentList"),
+      data.id
+    );
+
+    LOCAL_STORAGE.set("recentList", [recentItem, ...newRecentList]);
+  };
+
   componentDidMount() {
     this.getProductList();
   }
@@ -27,6 +40,7 @@ export default class ProductList extends Component {
 
     return (
       <div>
+        <Link to="/recent-list">최근 조회 이력</Link>
         <RecentListContainer>
           <ListTitle>상품 목록 페이지</ListTitle>
 
@@ -36,7 +50,10 @@ export default class ProductList extends Component {
 
               return (
                 <Col lg={6} md={8} xs={24} key={data.id}>
-                  <Link to={`/product/${data.id}`}>
+                  <Link
+                    to={`/product/${data.id}`}
+                    onClick={() => this.handleRecentList(data)}
+                  >
                     <Card
                       hoverable={true}
                       cover={
@@ -65,4 +82,8 @@ export default class ProductList extends Component {
 
 const cardImageStyle = {
   height: "150px",
+};
+
+const removeDuplicatedItemById = (arr, id) => {
+  return arr.filter((item) => item.id !== id);
 };
