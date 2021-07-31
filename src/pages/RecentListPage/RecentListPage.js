@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import BrandFilterMenu from "../../components/BrandFilterMenu";
@@ -142,13 +144,7 @@ export default class RecentListPage extends Component {
                   >
                     <Card
                       hoverable={true}
-                      cover={
-                        <img
-                          alt="example"
-                          style={cardImageStyle}
-                          src={originalData.imgUrl}
-                        />
-                      }
+                      cover={<img alt="example" src={originalData.imgUrl} />}
                     >
                       <Meta
                         title={originalData.title}
@@ -165,10 +161,6 @@ export default class RecentListPage extends Component {
     );
   }
 }
-
-const cardImageStyle = {
-  height: "150px",
-};
 
 const buttonPositionStyle = {
   textAlign: "right",
