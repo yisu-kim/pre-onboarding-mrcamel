@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { LOCAL_STORAGE, ORIGINAL_DATA } from "../../utils/constants";
@@ -24,14 +26,14 @@ export default class ProductListPage extends Component {
     this.props.history.push("/recent-list");
   };
 
-  handleRecentList = async (data) => {
+  handleRecentList = async (product) => {
     const recentItem = {
-      id: data.id,
+      id: product.id,
       dislike: false,
     };
     const newRecentList = removeDuplicatedItemById(
       await LOCAL_STORAGE.get("recentList"),
-      data.id
+      product.id
     );
 
     LOCAL_STORAGE.set("recentList", [recentItem, ...newRecentList]);
@@ -70,7 +72,7 @@ export default class ProductListPage extends Component {
                 <Col lg={6} md={8} xs={24} key={product.id}>
                   <Link
                     to={`/product/${product.id}`}
-                    onClick={this.handleRecentList}
+                    onClick={() => this.handleRecentList(product)}
                   >
                     <Card
                       hoverable={true}
