@@ -21,10 +21,8 @@ class ProductDetailPage extends Component {
       original_data: ORIGINAL_DATA,
     };
   }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     const productId = nextProps.match.params.productId;
-
     if (prevState.productId !== "-1") {
       return { productId: parseInt(productId) };
     } else if (
@@ -36,7 +34,6 @@ class ProductDetailPage extends Component {
     }
     return null;
   }
-
   async componentDidUpdate() {
     const {
       match: {
@@ -44,33 +41,24 @@ class ProductDetailPage extends Component {
       },
     } = this.props;
 
-    const goRecentListPage = () => {
-      this.props.history.push("/recent-list");
-    };
-
-    const goProductListPage = () => {
-      this.props.history.push("/product");
-    };
-
-    const randomProduct = (interestList) => {
-      let temp = productId;
-      while (temp === productId) {
-        temp = Math.floor(Math.random() * interestList.length);
-      }
-      return interestList[temp] === undefined ? productId : interestList[temp];
-    };
     await recentListStorage.update(productId);
   }
-
   async componentDidMount() {
     const {
       match: {
         params: { productId },
       },
     } = this.props;
-
     await recentListStorage.update(productId);
   }
+
+  goRecentListPage = () => {
+    this.props.history.push("/recent-list");
+  };
+
+  goProductListPage = () => {
+    this.props.history.push("/product");
+  };
 
   randomProduct(interestList, productId) {
     let temp = productId;
@@ -82,7 +70,6 @@ class ProductDetailPage extends Component {
 
   async handleRandom(productId) {
     const interestList = await LOCAL_STORAGE.get("interestList");
-
     if (interestList.length <= 0) {
       return;
     }
@@ -93,7 +80,6 @@ class ProductDetailPage extends Component {
 
   async handleDislike(productId) {
     await recentListStorage.dislike(productId);
-
     const interestList = await LOCAL_STORAGE.get("interestList");
     if (interestList.length <= 0) {
       return;
@@ -109,53 +95,63 @@ class ProductDetailPage extends Component {
     const nextProductId = this.randomProduct(tempArray, productId);
     this.props.history.push(`/product/${nextProductId}`);
   }
-
   render() {
     const { productId, original_data } = this.state;
-
     return (
-      <div>
+      <DetailPageContainer>
+        <Row gutter={[16, 16]} type="flex">
+          <Col span={16}>
+            <Title>상품 상세 페이지</Title>
+          </Col>
+
+          <Col span={8} style={{ textAlign: "right" }}>
+            <Button
+              type="primary"
+              onClick={this.goProductListPage}
+              style={{ right: "10px" }}
+            >
+              {" "}
+              상품 목록
+            </Button>
+            <Button
+              type="primary"
+              icon={<UserOutlined />}
+              onClick={this.goRecentListPage}
+            >
+              {" "}
+              최근 본 상품 목록
+            </Button>
+          </Col>
+        </Row>
         {productId !== -1 &&
         productId < MAX_PRODUCT_ID &&
         productId >= MIN_PRODUCT_ID ? (
-          <DetailPageContainer>
-            <Row gutter={[16, 16]} type="flex">
-              <Col span={16}>
-                <Title>상품 상세 페이지</Title>
-              </Col>
-
-              <Col span={8} style={{ textAlign: "right" }}>
-                <Button
-                  type="primary"
-                  onClick={goProductListPage}
-                  style={{ right: "10px" }}
-                >
-                  {" "}
-                  상품 목록
-                </Button>
-                <Button
-                  type="primary"
-                  icon={<UserOutlined />}
-                  onClick={goRecentListPage}
-                >
-                  {" "}
-                  최근 본 상품 목록
-                </Button>
-              </Col>
-            </Row>
+          <div style={{ display: "flex" }}>
             <img src={original_data[productId].imgUrl} alt="productImage" />
-            <div>{original_data[productId].title}</div>
-            <div>{original_data[productId].brand}</div>
-            <div>{original_data[productId].price}</div>
-            <Button onClick={() => this.handleRandom(productId)}>Random</Button>
-            <Button onClick={() => this.handleDislike(productId)}>
-              Dislike
-            </Button>
-          </DetailPageContainer>
+            <div>
+              <div>{original_data[productId].title}</div>
+              <div>{original_data[productId].brand}</div>
+              <div>{original_data[productId].price}</div>
+            </div>
+          </div>
         ) : (
-          <div>잘못된 페이지입니다</div>
+          <div>존재하지 않는 상품입니다.</div>
         )}
-      </div>
+        <div>
+          <Button
+            onClick={() => this.handleRandom(productId)}
+            style={{ margin: "10px" }}
+          >
+            Random
+          </Button>
+          <Button
+            onClick={() => this.handleDislike(productId)}
+            style={{ margin: "10px" }}
+          >
+            Dislike
+          </Button>
+        </div>
+      </DetailPageContainer>
     );
   }
 }
