@@ -10,7 +10,6 @@ import { Row, Col, Card, message, Checkbox, Typography, Button } from "antd";
 import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
 import { RollbackOutlined } from "@ant-design/icons";
-import { getOriginalData } from "../../utils/getOriginalData";
 
 const { Meta } = Card;
 const { Title } = Typography;

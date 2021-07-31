@@ -77,7 +77,3 @@ export default class ProductListPage extends Component {
     );
   }
 }
-
-const removeDuplicatedItemById = (arr, id) => {
-  return arr.filter((item) => item.id !== id);
-};
