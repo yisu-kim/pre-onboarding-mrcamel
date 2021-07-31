@@ -7,10 +7,19 @@ const update = async (productId) => {
   }
 
   const id = parseInt(productId);
-  const recentItem = {
-    id,
-    dislike: false,
-  };
+  let recentItem;
+
+  const findedItem = recentList.find((item) => item.id === id);
+
+  if (findedItem) {
+    recentItem = findedItem;
+  } else {
+    recentItem = {
+      id,
+      dislike: false,
+    };
+  }
+
   const newRecentList = removeDuplicatedItemById(
     await LOCAL_STORAGE.get("recentList"),
     id
@@ -19,8 +28,10 @@ const update = async (productId) => {
 };
 
 const dislike = async (productId) => {
+  const id = parseInt(productId);
+
   const recentList = await LOCAL_STORAGE.get("recentList");
-  recentList.find((item) => item.id === productId).dislike = true;
+  recentList.find((item) => item.id === id).dislike = true;
   await LOCAL_STORAGE.set("recentList", recentList);
 };
 
