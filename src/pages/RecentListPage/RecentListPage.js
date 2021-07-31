@@ -1,12 +1,15 @@
+/* eslint-disable react/prop-types */
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import BrandFilterMenu from "../../components/BrandFilterMenu";
 import DislikeFilter from "../../components/DislikeFilter";
 import { RecentListContainer } from "./RecentListPageStyle";
 import { LOCAL_STORAGE } from "../../utils/constants";
-import { Row, Col, Card, message, Checkbox, Typography } from "antd";
+import { Row, Col, Card, message, Checkbox, Typography, Button } from "antd";
 import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
+import { RollbackOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -50,6 +53,10 @@ export default class RecentListPage extends Component {
     });
   };
 
+  goProductListPage = () => {
+    this.props.history.push("/product");
+  };
+
   componentDidMount() {
     this.getRecentList();
   }
@@ -57,6 +64,11 @@ export default class RecentListPage extends Component {
   render() {
     const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
     let products = datas;
+    products = products.map((data) => {
+      const originalData = getOriginalInfo(data.id);
+      return { ...data, price: originalData.price };
+    });
+    console.log(products);
     let filteredList;
 
     const compareFunction = (a, b) => {
@@ -70,6 +82,11 @@ export default class RecentListPage extends Component {
     if (checked.length === 0) {
       filteredList = products;
       if (priceChecked) {
+        products = products.map((data) => {
+          const originalData = getOriginalInfo(data.id);
+          return { ...data, price: originalData.price };
+        });
+
         filteredList = products.sort(compareFunction);
       }
     } else {
@@ -79,6 +96,11 @@ export default class RecentListPage extends Component {
       });
 
       if (priceChecked) {
+        products = products.map((data) => {
+          const originalData = getOriginalInfo(data.id);
+          return { ...data, price: originalData.price };
+        });
+
         filteredList = filteredList.sort(compareFunction);
       }
     }
@@ -86,7 +108,21 @@ export default class RecentListPage extends Component {
     return (
       <div>
         <RecentListContainer>
-          <Title>상품 조회 목록 페이지</Title>
+          <Row type="flex">
+            <Col span={16}>
+              <Title>상품 조회 목록 페이지</Title>
+            </Col>
+            <Col span={8} style={buttonPositionStyle}>
+              <Button
+                type="primary"
+                icon={<RollbackOutlined />}
+                onClick={this.goProductListPage}
+              >
+                {" "}
+                상품 리스트 보기
+              </Button>
+            </Col>
+          </Row>
 
           <Row gutter={[16, 16]}>
             <Col lg={16} md={16} xs={24}>
@@ -123,17 +159,11 @@ export default class RecentListPage extends Component {
                   >
                     <Card
                       hoverable={true}
-                      cover={
-                        <img
-                          alt="example"
-                          style={cardImageStyle}
-                          src={originalData.imgUrl}
-                        />
-                      }
+                      cover={<img alt="example" src={originalData.imgUrl} />}
                     >
                       <Meta
                         title={originalData.title}
-                        description={originalData.brand}
+                        description={originalData.price}
                       />
                     </Card>
                   </Link>
@@ -147,8 +177,8 @@ export default class RecentListPage extends Component {
   }
 }
 
-const cardImageStyle = {
-  height: "150px",
+const buttonPositionStyle = {
+  textAlign: "right",
 };
 
 RecentListPage.propTypes = {
