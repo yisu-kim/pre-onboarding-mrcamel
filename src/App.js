@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect, Route } from "react-router-dom";
-import ProductList from "./pages/ProductListPage";
+import ProductListPage from "./pages/ProductListPage/index";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import RecentListPage from "./pages/RecentListPage";
 import { LOCAL_STORAGE } from "./utils/constants";
@@ -14,7 +14,7 @@ class App extends Component {
         <Route exact path="/">
           <Redirect to="/product" />
         </Route>
-        <Route exact path="/product" component={ProductList} />
+        <Route exact path="/product" component={ProductListPage} />
         <Route path="/product/:productId" component={ProductDetailPage} />
         <Route path="/recent-list" component={RecentListPage} />
       </div>
