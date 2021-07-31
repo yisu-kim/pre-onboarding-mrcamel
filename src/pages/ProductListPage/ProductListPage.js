@@ -1,21 +1,27 @@
-import { Card, Col, Row } from "antd";
-import Meta from "antd/lib/card/Meta";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { LOCAL_STORAGE, ORIGINAL_DATA } from "../../utils/constants";
-// import { getOriginalInfo } from "../../utils/getOriginalInfo";
-import { style } from "./RecentListPageStyle";
-const { RecentListContainer, ListTitle } = style;
+import { Row, Col, Card, Typography, Button } from "antd";
+import { ProductListContainer } from "./ProductListPageStyle";
+import { UserOutlined } from "@ant-design/icons";
 
-export default class ProductList extends Component {
+const { Meta } = Card;
+const { Title } = Typography;
+
+export default class ProductListPage extends Component {
   state = {
-    datas: [],
+    products: [],
   };
 
-  getProductList = async () => {
+  loadData = async () => {
+    const data = await ORIGINAL_DATA;
     this.setState({
-      datas: await ORIGINAL_DATA,
+      products: data,
     });
+  };
+
+  goRecentListPage = () => {
+    this.props.history.push("/recent-list");
   };
 
   handleRecentList = async (data) => {
@@ -32,27 +38,39 @@ export default class ProductList extends Component {
   };
 
   componentDidMount() {
-    this.getProductList();
+    this.loadData();
   }
 
   render() {
-    const { datas } = this.state;
+    const { products } = this.state;
 
     return (
       <div>
-        <Link to="/recent-list">최근 조회 이력</Link>
-        <RecentListContainer>
-          <ListTitle>상품 목록 페이지</ListTitle>
+        <ProductListContainer>
+          <Row gutter={[16, 16]} type="flex">
+            <Col span={16}>
+              <Title>상품 목록</Title>
+            </Col>
+
+            <Col span={8} style={{ textAlign: "right" }}>
+              <Button
+                type="primary"
+                icon={<UserOutlined />}
+                onClick={this.goRecentListPage}
+              >
+                {" "}
+                최근 본 상품 목록
+              </Button>
+            </Col>
+          </Row>
 
           <Row gutter={[16, 16]}>
-            {datas.map((data) => {
-              const originalData = data;
-
+            {products.map((product) => {
               return (
-                <Col lg={6} md={8} xs={24} key={data.id}>
+                <Col lg={6} md={8} xs={24} key={product.id}>
                   <Link
-                    to={`/product/${data.id}`}
-                    onClick={() => this.handleRecentList(data)}
+                    to={`/product/${product.id}`}
+                    onClick={this.handleRecentList}
                   >
                     <Card
                       hoverable={true}
@@ -60,13 +78,13 @@ export default class ProductList extends Component {
                         <img
                           alt="example"
                           style={cardImageStyle}
-                          src={originalData.imgUrl}
+                          src={product.imgUrl}
                         />
                       }
                     >
                       <Meta
-                        title={originalData.title}
-                        description={originalData.brand}
+                        title={product.title}
+                        description={`${product.price}원`}
                       />
                     </Card>
                   </Link>
@@ -74,7 +92,7 @@ export default class ProductList extends Component {
               );
             })}
           </Row>
-        </RecentListContainer>
+        </ProductListContainer>
       </div>
     );
   }

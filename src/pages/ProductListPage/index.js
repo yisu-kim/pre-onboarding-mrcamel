@@ -1,3 +1,3 @@
-import ProductList from "./ProductListPage";
+import ProductListPage from "./ProductListPage";
 
-export default ProductList;
+export default ProductListPage;
