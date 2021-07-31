@@ -84,12 +84,6 @@ export default class RecentListPage extends Component {
   //   this.props.history.push("/product");
   // };
 
-  componentDidMount() {
-    this.getRecentList();
-
-    setInterval(this.update, 1000);
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const hour = this.state.date.getHours();
     const minute = this.state.date.getMinutes();

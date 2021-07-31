@@ -31,6 +31,7 @@ class ProductDetailPage extends Component {
     this.state = {
       productId: "-1",
       original_data: ORIGINAL_DATA,
+      disabled: false,
     };
   }
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -99,10 +100,14 @@ class ProductDetailPage extends Component {
     }
     await LOCAL_STORAGE.set("interestList", tempArray);
     const nextProductId = this.randomProduct(tempArray, productId);
+    if (productId === nextProductId) {
+      this.setState({ disabled: true });
+      return;
+    }
     this.props.history.push(`/product/${nextProductId}`);
   }
   render() {
-    const { productId, original_data } = this.state;
+    const { productId, original_data, disabled } = this.state;
     return (
       <DetailPageContainer>
         <Row gutter={[16, 16]} type="flex">
@@ -194,6 +199,7 @@ class ProductDetailPage extends Component {
                   size="large"
                   onClick={() => this.handleRandom(productId)}
                   style={randomButtonStyle}
+                  disabled={disabled}
                 >
                   랜덤 상품 선택
                 </Button>
@@ -201,6 +207,7 @@ class ProductDetailPage extends Component {
                   onClick={() => this.handleDislike(productId)}
                   size="large"
                   type="primary"
+                  disabled={disabled}
                 >
                   관심 없음
                 </Button>
