@@ -1,17 +1,26 @@
 /* eslint-disable react/prop-types */
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import BrandFilterMenu from "../../components/BrandFilterMenu";
 import DislikeFilter from "../../components/DislikeFilter";
 import { RecentListContainer } from "./RecentListPageStyle";
 import { LOCAL_STORAGE } from "../../utils/constants";
-import { Row, Col, Card, message, Checkbox, Typography, Button } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  message,
+  Checkbox,
+  Typography,
+  Button,
+  Select,
+} from "antd";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
 import { RollbackOutlined } from "@ant-design/icons";
 import Product from "../../components/Product";
 
 const { Title } = Typography;
+const { Option } = Select;
 
 export default class RecentListPage extends Component {
   state = {
@@ -22,13 +31,11 @@ export default class RecentListPage extends Component {
     priceChecked: false,
     date: new Date(),
   };
-
   update = () => {
     this.setState({
       date: new Date(),
     });
   };
-
   getRecentList = () => {
     this.setState({
       datas: LOCAL_STORAGE.get("recentList"),
@@ -40,31 +47,39 @@ export default class RecentListPage extends Component {
       datas: LOCAL_STORAGE.set("recentList", []),
     });
   };
-
   handleBrandFilters = (checked) => {
     this.setState({
       checked: checked,
     });
   };
-
   handleDislikeFilter = (checked) => {
     this.setState({
       onlyInterestingProduct: checked,
     });
   };
-
   handleAccessPopup = (dislike) => {
     if (dislike) {
       message.warning("관심없는 상품으로 등록하신 상품입니다.", 1);
     }
   };
-
   handlePriceSort = (e) => {
     this.setState({
       priceChecked: e.target.checked,
     });
   };
 
+  // 이 함수입니다 유정님!
+  onSelectChange = (value) => {
+    console.log("selectedValue: ", value);
+  };
+
+  goProductListPage = () => {
+    this.props.history.push("/product");
+  };
+  componentDidMount() {
+    this.getRecentList();
+    setInterval(this.update, 1000);
+  }
   // goProductListPage = () => {
   //   this.props.history.push("/product");
   // };
@@ -89,7 +104,6 @@ export default class RecentListPage extends Component {
       }
     }
   }
-
   render() {
     const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
 
@@ -100,23 +114,15 @@ export default class RecentListPage extends Component {
     });
 
     let filteredList;
-
     const compareFunction = (a, b) => {
       return a.price - b.price;
     };
-
     if (onlyInterestingProduct) {
       products = products.filter((data) => data.dislike === false);
     }
-
     if (checked.length === 0) {
       filteredList = products;
       if (priceChecked) {
-        products = products.map((data) => {
-          const originalData = getOriginalInfo(data.id);
-          return { ...data, price: originalData.price };
-        });
-
         filteredList = products.sort(compareFunction);
       }
     } else {
@@ -124,17 +130,10 @@ export default class RecentListPage extends Component {
         const originalData = getOriginalInfo(data.id);
         return checked.includes(originalData.brand);
       });
-
       if (priceChecked) {
-        products = products.map((data) => {
-          const originalData = getOriginalInfo(data.id);
-          return { ...data, price: originalData.price };
-        });
-
         filteredList = filteredList.sort(compareFunction);
       }
     }
-
     return (
       <div>
         <RecentListContainer>
@@ -153,33 +152,33 @@ export default class RecentListPage extends Component {
               </Button>
             </Col>
           </Row>
-
           <Row gutter={[16, 16]}>
             <Col lg={16} md={16} xs={24}>
               <BrandFilterMenu handleBrandFilters={this.handleBrandFilters} />
             </Col>
-
             <Col lg={8} md={8} xs={24}>
               <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
               <Card size="small">
+                <Select onChange={this.onSelectChange} defaultValue="price">
+                  <Option value="price">낮은 가격 순</Option>
+                  <Option value="view">최근 조회 순</Option>
+                </Select>
+
                 <Checkbox onChange={this.handlePriceSort}>
                   낮은 가격 순
                 </Checkbox>
               </Card>
             </Col>
           </Row>
-
           <Product productList={filteredList} />
         </RecentListContainer>
       </div>
     );
   }
 }
-
 const buttonPositionStyle = {
   textAlign: "right",
 };
-
 RecentListPage.propTypes = {
   recentList: PropTypes.array,
 };
