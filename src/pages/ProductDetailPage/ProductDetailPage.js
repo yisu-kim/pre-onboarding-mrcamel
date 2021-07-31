@@ -7,6 +7,11 @@ import {
   INTEREST_LIST,
 } from "../../utils/constants";
 import propTypes from "prop-types";
+import { Col, Row, Typography, Button } from "antd";
+import { DetailPageContainer } from "./ProductDetailPageStyle";
+import { UserOutlined } from "@ant-design/icons";
+
+const { Title } = Typography;
 
 class ProductDetailPage extends Component {
   constructor(props) {
@@ -33,6 +38,14 @@ class ProductDetailPage extends Component {
 
   render() {
     const { productId, original_data } = this.state;
+
+    const goRecentListPage = () => {
+      this.props.history.push("/recent-list");
+    };
+
+    const goProductListPage = () => {
+      this.props.history.push("/product");
+    };
 
     const randomProduct = (interestList) => {
       let temp = productId;
@@ -83,14 +96,40 @@ class ProductDetailPage extends Component {
         {productId !== -1 &&
         productId < MAX_PRODUCT_ID &&
         productId >= MIN_PRODUCT_ID ? (
-          <div>
+          <DetailPageContainer>
+            <Row gutter={[16, 16]} type="flex">
+              <Col span={16}>
+                <Title>상품 상세 페이지</Title>
+              </Col>
+
+              <Col span={8} style={{ textAlign: "right" }}>
+                <Button
+                  type="primary"
+                  onClick={goProductListPage}
+                  style={{ right: "10px" }}
+                >
+                  {" "}
+                  상품 목록
+                </Button>
+                <Button
+                  type="primary"
+                  icon={<UserOutlined />}
+                  onClick={goRecentListPage}
+                >
+                  {" "}
+                  최근 본 상품 목록
+                </Button>
+              </Col>
+            </Row>
             <img src={original_data[productId].imgUrl} alt="productImage" />
             <div>{original_data[productId].title}</div>
             <div>{original_data[productId].brand}</div>
             <div>{original_data[productId].price}</div>
-            <button onClick={handleRandom}>Random</button>
-            <button onClick={handleDislike}>Dislike</button>
-          </div>
+            <Button onClick={handleRandom}>Random</Button>
+            <Button onClick={handleDislike} style={{ left: "10px" }}>
+              Dislike
+            </Button>
+          </DetailPageContainer>
         ) : (
           <div>잘못된 페이지입니다</div>
         )}
