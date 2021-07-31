@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { ORIGINAL_DATA } from "../../utils/constants";
+import { LOCAL_STORAGE, ORIGINAL_DATA } from "../../utils/constants";
 import { Row, Col, Card, Typography, Button } from "antd";
 import { ProductListContainer } from "./ProductListPageStyle";
 import { UserOutlined } from "@ant-design/icons";
@@ -22,6 +24,19 @@ export default class ProductListPage extends Component {
 
   goRecentListPage = () => {
     this.props.history.push("/recent-list");
+  };
+
+  handleRecentList = async (product) => {
+    const recentItem = {
+      id: product.id,
+      dislike: false,
+    };
+    const newRecentList = removeDuplicatedItemById(
+      await LOCAL_STORAGE.get("recentList"),
+      product.id
+    );
+
+    LOCAL_STORAGE.set("recentList", [recentItem, ...newRecentList]);
   };
 
   componentDidMount() {
@@ -55,7 +70,10 @@ export default class ProductListPage extends Component {
             {products.map((product) => {
               return (
                 <Col lg={6} md={8} xs={24} key={product.id}>
-                  <Link to={`/product/${product.id}`}>
+                  <Link
+                    to={`/product/${product.id}`}
+                    onClick={() => this.handleRecentList(product)}
+                  >
                     <Card
                       hoverable={true}
                       cover={
@@ -84,4 +102,8 @@ export default class ProductListPage extends Component {
 
 const cardImageStyle = {
   height: "150px",
+};
+
+const removeDuplicatedItemById = (arr, id) => {
+  return arr.filter((item) => item.id !== id);
 };
