@@ -1,9 +1,8 @@
-/* eslint-disable no-undef */
-import { override, addWebpackAlias } from "customize-cra";
-import addLessLoader from "customize-cra-less-loader";
-import { resolve } from "path";
+const { override, addWebpackAlias } = require("customize-cra");
+const addLessLoader = require("customize-cra-less-loader");
+const path = require("path");
 
-export default override(
+module.exports = override(
   addLessLoader({
     lessLoaderOptions: {
       lessOptions: {
@@ -17,10 +16,10 @@ export default override(
     },
   }),
   addWebpackAlias({
-    "@": resolve(__dirname, "src"),
-    "@components": resolve(__dirname, "src/components"),
-    "@styles": resolve(__dirname, "src/styles"),
-    "@pages": resolve(__dirname, "src/pages"),
-    "@utils": resolve(__dirname, "src/utils"),
+    "@": path.resolve(__dirname, "src"),
+    "@components": path.resolve(__dirname, "src/components"),
+    "@styles": path.resolve(__dirname, "src/styles"),
+    "@pages": path.resolve(__dirname, "src/pages"),
+    "@utils": path.resolve(__dirname, "src/utils"),
   }),
 );
