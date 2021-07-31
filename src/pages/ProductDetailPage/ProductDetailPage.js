@@ -26,6 +26,7 @@ import { UserOutlined } from "@ant-design/icons";
 const { Title } = Typography;
 import recentListStorage from "../../utils/storage/recentList";
 import { Redirect } from "react-router-dom";
+import { RollbackOutlined } from "@ant-design/icons";
 
 class ProductDetailPage extends Component {
   constructor(props) {
@@ -130,7 +131,7 @@ class ProductDetailPage extends Component {
           </Col>
           <Col span={8} style={{ textAlign: "right" }}>
             <Button
-              type="primary"
+              icon={<RollbackOutlined />}
               onClick={this.goProductListPage}
               style={{ right: "10px" }}
             >
