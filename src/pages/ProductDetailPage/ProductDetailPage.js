@@ -251,7 +251,3 @@ const randomButtonStyle = {
   marginBottom: "3rem",
   marginTop: "2rem",
 };
-
-const rowStyle = {
-  marginBottom: "2rem",
-};

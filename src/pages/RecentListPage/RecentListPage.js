@@ -7,11 +7,10 @@ import DislikeFilter from "../../components/DislikeFilter";
 import { RecentListContainer } from "./RecentListPageStyle";
 import { LOCAL_STORAGE } from "../../utils/constants";
 import { Row, Col, Card, message, Checkbox, Typography, Button } from "antd";
-import { Link } from "react-router-dom";
 import { getOriginalInfo } from "../../utils/getOriginalInfo";
 import { RollbackOutlined } from "@ant-design/icons";
+import Product from "../../components/Product";
 
-const { Meta } = Card;
 const { Title } = Typography;
 
 export default class RecentListPage extends Component {
@@ -139,38 +138,7 @@ export default class RecentListPage extends Component {
             </Col>
           </Row>
 
-          <Row gutter={[16, 16]}>
-            {filteredList.map((data) => {
-              const originalData = getOriginalInfo(data.id);
-
-              return (
-                <Col lg={6} md={8} xs={24} key={data.id}>
-                  <Link
-                    to={(location) => {
-                      if (data.dislike) {
-                        return { ...location };
-                      }
-                      return {
-                        ...location,
-                        pathname: `/product/${data.id}`,
-                      };
-                    }}
-                    onClick={() => this.handleAccessPopup(data.dislike)}
-                  >
-                    <Card
-                      hoverable={true}
-                      cover={<img alt="example" src={originalData.imgUrl} />}
-                    >
-                      <Meta
-                        title={originalData.title}
-                        description={originalData.price}
-                      />
-                    </Card>
-                  </Link>
-                </Col>
-              );
-            })}
-          </Row>
+          <Product productList={filteredList} />
         </RecentListContainer>
       </div>
     );

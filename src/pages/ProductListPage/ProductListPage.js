@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { ORIGINAL_DATA } from "../../utils/constants";
-import { Row, Col, Card, Typography, Button } from "antd";
+import { Row, Col, Typography, Button } from "antd";
 import { ProductListContainer } from "./ProductListPageStyle";
 import { UserOutlined } from "@ant-design/icons";
+import Product from "../../components/Product";
 
-const { Meta } = Card;
 const { Title } = Typography;
 
 export default class ProductListPage extends Component {
@@ -53,25 +52,7 @@ export default class ProductListPage extends Component {
             </Col>
           </Row>
 
-          <Row gutter={[16, 16]}>
-            {products.map((product) => {
-              return (
-                <Col lg={6} md={8} xs={24} key={product.id}>
-                  <Link to={`/product/${product.id}`}>
-                    <Card
-                      hoverable={true}
-                      cover={<img alt="example" src={product.imgUrl} />}
-                    >
-                      <Meta
-                        title={product.title}
-                        description={`${product.price}원`}
-                      />
-                    </Card>
-                  </Link>
-                </Col>
-              );
-            })}
-          </Row>
+          <Product productList={products} />
         </ProductListContainer>
       </div>
     );
