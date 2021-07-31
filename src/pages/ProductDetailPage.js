@@ -39,7 +39,7 @@ class ProductDetailPage extends Component {
       while (temp === productId) {
         temp = Math.floor(Math.random() * interestList.length);
       }
-      return interestList[temp];
+      return interestList[temp] === undefined ? productId : interestList[temp];
     };
 
     const handleRandom = async () => {
@@ -75,7 +75,6 @@ class ProductDetailPage extends Component {
       }
       await LOCAL_STORAGE.set("interestList", tempArray);
       const nextProductId = randomProduct(tempArray);
-      this.setState({ productId: `${nextProductId}` });
       this.props.history.push(`/product/${nextProductId}`);
     };
 
