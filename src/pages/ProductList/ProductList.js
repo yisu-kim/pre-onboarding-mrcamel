@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { Row, Col, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
-import { LOCAL_STORAGE, ROUTES, STORAGE_KEYS } from "utils/constants/constants";
+import { ROUTES } from "utils/constants/constants";
 import { initStorage } from "utils/storage/init";
+import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
+import interestListStorage from "utils/storage/interestList";
 import Product from "components/Product";
 import { CustomCol, ProductListContainer } from "./ProductListStyle";
 
@@ -25,9 +27,7 @@ class ProductList extends Component {
   }
 
   componentDidUpdate() {
-    if (
-      new Date().getDate() !== LOCAL_STORAGE.get(STORAGE_KEYS.LAST_VISITED_DATE)
-    ) {
+    if (new Date().getDate() !== lastVisitedDateStorage.get()) {
       initStorage();
       this.getInterestList();
     }
@@ -45,7 +45,7 @@ class ProductList extends Component {
 
   getInterestList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST).map((itemId) => ({
+      datas: interestListStorage.get().map((itemId) => ({
         id: itemId,
       })),
     });

@@ -1,13 +1,29 @@
 import { LOCAL_STORAGE, STORAGE_KEYS } from "utils/constants/constants";
 
-const get = (productId) => {
+const get = () => {
+  return LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
+};
+
+const set = (value) => {
+  LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, value);
+};
+
+const init = () => {
+  set([]);
+};
+
+const isExist = () => {
+  return !!get();
+};
+
+const findById = (productId) => {
   const id = parseInt(productId);
-  const recentList = LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
+  const recentList = get();
   return recentList.filter((item) => item.id === id)[0];
 };
 
-const update = (productId) => {
-  const recentList = LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
+const updateById = (productId) => {
+  const recentList = get();
   if (!recentList) {
     return null;
   }
@@ -26,27 +42,28 @@ const update = (productId) => {
     };
   }
 
-  const newRecentList = removeDuplicatedItemById(
-    LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
-    id
-  );
-  LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, [recentItem, ...newRecentList]);
+  const newRecentList = removeDuplicatedItemById(get(), id);
+  set([recentItem, ...newRecentList]);
 };
 
-const dislike = (productId) => {
+const dislikeById = (productId) => {
   const id = parseInt(productId);
 
-  const recentList = LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
+  const recentList = get();
   recentList.find((item) => item.id === id).dislike = true;
-  LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, recentList);
-};
-
-export default {
-  get,
-  update,
-  dislike,
+  set(recentList);
 };
 
 const removeDuplicatedItemById = (arr, id) => {
   return arr.filter((item) => item.id !== id);
+};
+
+export default {
+  get,
+  set,
+  init,
+  isExist,
+  findById,
+  updateById,
+  dislikeById,
 };

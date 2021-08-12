@@ -8,10 +8,9 @@ import {
   PRODUCT_DATA,
   MIN_PRODUCT_ID,
   MAX_PRODUCT_ID,
-  LOCAL_STORAGE,
   ROUTES,
-  STORAGE_KEYS,
 } from "utils/constants/constants";
+import interestListStorage from "utils/storage/interestList";
 import recentListStorage from "utils/storage/recentList";
 import {
   DescriptionContentContainer,
@@ -63,7 +62,7 @@ class ProductDetail extends Component {
         params: { productId },
       },
     } = this.props;
-    recentListStorage.update(productId);
+    recentListStorage.updateById(productId);
   }
 
   componentDidMount() {
@@ -72,9 +71,9 @@ class ProductDetail extends Component {
         params: { productId },
       },
     } = this.props;
-    recentListStorage.update(productId);
+    recentListStorage.updateById(productId);
 
-    const recentItem = recentListStorage.get(productId);
+    const recentItem = recentListStorage.findById(productId);
     if (recentItem.dislike) {
       this.setState({ isBlocked: true });
     }
@@ -89,7 +88,7 @@ class ProductDetail extends Component {
   };
 
   handleRandom = async (productId) => {
-    const interestList = LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST);
+    const interestList = interestListStorage.get();
     if (interestList.length <= 0) {
       return;
     }
@@ -99,8 +98,8 @@ class ProductDetail extends Component {
   };
 
   handleDislike = (productId) => {
-    recentListStorage.dislike(productId);
-    const interestList = LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST);
+    recentListStorage.dislikeById(productId);
+    const interestList = interestListStorage.get();
     if (interestList.length <= 0) {
       return;
     }
@@ -111,7 +110,7 @@ class ProductDetail extends Component {
         break;
       }
     }
-    LOCAL_STORAGE.set(STORAGE_KEYS.INTEREST_LIST, tempArray);
+    interestListStorage.set(tempArray);
     const nextProductId = randomProduct(tempArray, productId);
     if (productId === nextProductId) {
       this.setState({ disabled: true });

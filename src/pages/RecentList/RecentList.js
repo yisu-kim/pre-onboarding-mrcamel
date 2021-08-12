@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import { Row, Col, Card, Button, Select } from "antd";
 import Title from "antd/lib/typography/Title";
 import { RollbackOutlined } from "@ant-design/icons";
-import { LOCAL_STORAGE, ROUTES, STORAGE_KEYS } from "utils/constants/constants";
-import { initStorage } from "utils/storage/init";
+import { ROUTES } from "utils/constants/constants";
 import productData from "utils/productData";
+import { initStorage } from "utils/storage/init";
+import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
+import recentListStorage from "utils/storage/recentList";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
 import DislikeFilter from "components/DislikeFilter";
@@ -33,9 +35,7 @@ class RecentList extends Component {
   }
 
   componentDidUpdate() {
-    if (
-      new Date().getDate() !== LOCAL_STORAGE.get(STORAGE_KEYS.LAST_VISITED_DATE)
-    ) {
+    if (new Date().getDate() !== lastVisitedDateStorage.get()) {
       initStorage();
       this.getRecentList();
     }
@@ -53,7 +53,7 @@ class RecentList extends Component {
 
   getRecentList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
+      datas: recentListStorage.get(),
     });
   };
 
