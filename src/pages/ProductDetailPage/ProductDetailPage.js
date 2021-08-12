@@ -28,15 +28,12 @@ import {
 } from "./ProductDetailPageStyle";
 
 class ProductDetailPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      productId: "-1",
-      original_data: ORIGINAL_DATA,
-      disabled: false,
-      isBlocked: false,
-    };
-  }
+  state = {
+    productId: "-1",
+    original_data: ORIGINAL_DATA,
+    disabled: false,
+    isBlocked: false,
+  };
 
   static propTypes = {
     match: PropTypes.shape({
@@ -94,25 +91,17 @@ class ProductDetailPage extends Component {
     this.props.history.push(ROUTES.PRODUCT);
   };
 
-  randomProduct(interestList, productId) {
-    let temp = productId;
-    while (temp === productId) {
-      temp = Math.floor(Math.random() * interestList.length);
-    }
-    return interestList[temp] === undefined ? productId : interestList[temp];
-  }
-
-  async handleRandom(productId) {
+  handleRandom = async (productId) => {
     const interestList = await LOCAL_STORAGE.get(INTEREST_LIST_KEY);
     if (interestList.length <= 0) {
       return;
     }
-    const nextProductId = this.randomProduct(interestList, productId);
+    const nextProductId = randomProduct(interestList, productId);
     this.props.history.push(`${ROUTES.PRODUCT}/${nextProductId}`);
     this.setState({ productId: nextProductId });
-  }
+  };
 
-  async handleDislike(productId) {
+  handleDislike = async (productId) => {
     await recentListStorage.dislike(productId);
     const interestList = await LOCAL_STORAGE.get(INTEREST_LIST_KEY);
     if (interestList.length <= 0) {
@@ -126,13 +115,13 @@ class ProductDetailPage extends Component {
       }
     }
     await LOCAL_STORAGE.set(INTEREST_LIST_KEY, tempArray);
-    const nextProductId = this.randomProduct(tempArray, productId);
+    const nextProductId = randomProduct(tempArray, productId);
     if (productId === nextProductId) {
       this.setState({ disabled: true });
       return;
     }
     this.props.history.push(`${ROUTES.PRODUCT}/${nextProductId}`);
-  }
+  };
 
   render() {
     const { productId, original_data, disabled, isBlocked } = this.state;
@@ -264,3 +253,11 @@ const randomButtonStyle = {
 };
 
 const { Title } = Typography;
+
+const randomProduct = (interestList, productId) => {
+  let temp = productId;
+  while (temp === productId) {
+    temp = Math.floor(Math.random() * interestList.length);
+  }
+  return interestList[temp] === undefined ? productId : interestList[temp];
+};

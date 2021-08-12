@@ -3,18 +3,13 @@ import PropTypes from "prop-types";
 import { Card, Checkbox } from "antd";
 
 class DislikeFilter extends Component {
-  constructor() {
-    super();
-    this.handleCheckbox = this.handleCheckbox.bind(this);
-  }
-
   static propTypes = {
     handleDislikeFilter: PropTypes.func,
   };
 
-  handleCheckbox(event) {
+  handleCheckbox = (event) => {
     this.props.handleDislikeFilter(event.target.checked);
-  }
+  };
 
   render() {
     return (
