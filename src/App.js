@@ -7,9 +7,9 @@ import {
   RECENT_LIST_KEY,
   ROUTES,
 } from "utils/constants/constants";
-import ProductListPage from "pages/ProductListPage";
-import ProductDetailPage from "pages/ProductDetailPage";
-import RecentListPage from "pages/RecentListPage";
+import ProductList from "pages/ProductList";
+import ProductDetail from "pages/ProductDetail";
+import RecentList from "pages/RecentList";
 
 class App extends Component {
   render() {
@@ -18,12 +18,12 @@ class App extends Component {
         <Route exact path={ROUTES.HOME}>
           <Redirect to={ROUTES.PRODUCT} />
         </Route>
-        <Route exact path={ROUTES.PRODUCT} component={ProductListPage} />
+        <Route exact path={ROUTES.PRODUCT} component={ProductList} />
         <Route
           path={`${ROUTES.PRODUCT}/:productId`}
-          component={ProductDetailPage}
+          component={ProductDetail}
         />
-        <Route path={ROUTES.RECENT_LIST} component={RecentListPage} />
+        <Route path={ROUTES.RECENT_LIST} component={RecentList} />
       </div>
     );
   }

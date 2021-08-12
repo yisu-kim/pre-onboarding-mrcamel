@@ -10,11 +10,11 @@ import {
 } from "utils/constants/constants";
 import { getOriginalInfo } from "utils/getOriginalInfo";
 import Product from "components/Product";
-import BrandFilterMenu from "components/BrandFilterMenu";
+import BrandFilter from "components/BrandFilter";
 import DislikeFilter from "components/DislikeFilter";
-import { RecentListContainer, CustomCol } from "./RecentListPageStyle";
+import { RecentListContainer, CustomCol } from "./RecentListStyle";
 
-class RecentListPage extends Component {
+class RecentList extends Component {
   state = {
     datas: [],
     checked: [],
@@ -154,7 +154,7 @@ class RecentListPage extends Component {
           </Row>
           <Row gutter={[16, 16]}>
             <Col lg={16} md={16} xs={24}>
-              <BrandFilterMenu handleBrandFilters={this.handleBrandFilters} />
+              <BrandFilter handleBrandFilters={this.handleBrandFilters} />
             </Col>
             <Col lg={8} md={8} xs={24}>
               <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
@@ -173,4 +173,4 @@ class RecentListPage extends Component {
   }
 }
 
-export default RecentListPage;
+export default RecentList;

@@ -9,9 +9,9 @@ import {
   ROUTES,
 } from "utils/constants/constants";
 import Product from "components/Product";
-import { CustomCol, ProductListContainer } from "./ProductListPageStyle";
+import { CustomCol, ProductListContainer } from "./ProductListStyle";
 
-class ProductListPage extends Component {
+class ProductList extends Component {
   state = {
     datas: [],
   };
@@ -67,4 +67,4 @@ class ProductListPage extends Component {
   }
 }
 
-export default ProductListPage;
+export default ProductList;

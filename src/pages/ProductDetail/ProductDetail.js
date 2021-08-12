@@ -22,8 +22,9 @@ import {
   CustomCard,
   ProductImg,
   CustomRow,
-} from "./ProductDetailPageStyle";
-class ProductDetailPage extends Component {
+} from "./ProductDetailStyle";
+
+class ProductDetail extends Component {
   state = {
     productId: "-1",
     original_data: ORIGINAL_DATA,
@@ -216,7 +217,7 @@ class ProductDetailPage extends Component {
   }
 }
 
-export default ProductDetailPage;
+export default ProductDetail;
 
 const randomProduct = (interestList, productId) => {
   let temp = productId;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Checkbox, Collapse } from "antd";
 import { getUniqueBrand } from "utils/getUniqueBrand";
 
-export default class BrandFilterMenu extends Component {
+export default class BrandFilter extends Component {
   state = {
     datas: [],
     checked: [],
