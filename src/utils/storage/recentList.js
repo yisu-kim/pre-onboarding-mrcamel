@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE } from "utils/constants";
+import { LOCAL_STORAGE } from "utils/constants/constants";
 
 const get = async (productId) => {
   const id = parseInt(productId);

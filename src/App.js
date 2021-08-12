@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { INTEREST_LIST, LOCAL_STORAGE } from "utils/constants";
+import { INTEREST_LIST, LOCAL_STORAGE } from "utils/constants/constants";
 import ProductListPage from "pages/ProductListPage";
 import ProductDetailPage from "pages/ProductDetailPage";
 import RecentListPage from "pages/RecentListPage";

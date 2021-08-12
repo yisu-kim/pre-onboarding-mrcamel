@@ -16,7 +16,7 @@ import {
   MIN_PRODUCT_ID,
   MAX_PRODUCT_ID,
   LOCAL_STORAGE,
-} from "utils/constants";
+} from "utils/constants/constants";
 import recentListStorage from "utils/storage/recentList";
 import {
   DescriptionContentContainer,

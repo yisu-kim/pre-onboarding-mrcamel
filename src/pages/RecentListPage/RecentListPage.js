@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Card, message, Typography, Button, Select } from "antd";
 import { RollbackOutlined } from "@ant-design/icons";
-import { LOCAL_STORAGE } from "utils/constants";
+import { LOCAL_STORAGE } from "utils/constants/constants";
 import { getOriginalInfo } from "utils/getOriginalInfo";
 import Product from "components/Product";
 import BrandFilterMenu from "components/BrandFilterMenu";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Typography, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { LOCAL_STORAGE } from "utils/constants";
+import { LOCAL_STORAGE } from "utils/constants/constants";
 import Product from "components/Product";
 import { ProductListContainer } from "./ProductListPageStyle";
 
