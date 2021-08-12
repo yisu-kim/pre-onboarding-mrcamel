@@ -1,7 +1,7 @@
 import productData from "utils/data/productData.json";
 import { PRODUCT_DATA } from "./constants/constants";
 
-export const createProductList = () => {
+const create = () => {
   const productList = [];
   productData.forEach((product, idx) => {
     productList.push({
@@ -13,11 +13,11 @@ export const createProductList = () => {
   return productList;
 };
 
-export const getProduct = (id) => {
+const findById = (id) => {
   return PRODUCT_DATA.find((data) => data.id === id);
 };
 
-export const getUniqueBrand = () => {
+const getUniqueBrand = () => {
   const uniqueBrand = {};
   PRODUCT_DATA.filter(({ brand }) => {
     if (uniqueBrand[brand]) {
@@ -31,4 +31,10 @@ export const getUniqueBrand = () => {
     label: brand,
     value: brand,
   }));
+};
+
+export default {
+  create,
+  findById,
+  getUniqueBrand,
 };

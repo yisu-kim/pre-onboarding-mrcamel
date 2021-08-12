@@ -1,6 +1,5 @@
 import storage from "utils/storage/storage";
-import { createProductList, getUniqueBrand } from "utils/product";
-import { getInterestList } from "utils/interestList";
+import productData from "utils/productData";
 
 // storage
 export const LOCAL_STORAGE = storage(localStorage);
@@ -19,12 +18,10 @@ export const ROUTES = {
 };
 
 // data
-export const PRODUCT_DATA = createProductList();
+export const PRODUCT_DATA = productData.create();
 
 export const MIN_PRODUCT_ID = 0;
 
 export const MAX_PRODUCT_ID = PRODUCT_DATA.length;
 
-export const INTEREST_LIST = getInterestList(MAX_PRODUCT_ID);
-
-export const UNIQUE_BRAND = getUniqueBrand();
+export const UNIQUE_BRAND = productData.getUniqueBrand();

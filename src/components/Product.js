@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Card, Col, message, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { ROUTES } from "utils/constants/constants";
-import { getProduct } from "utils/product";
+import productData from "utils/productData";
 
 class Product extends Component {
   constructor() {
@@ -28,7 +28,7 @@ class Product extends Component {
     return (
       <Row gutter={[16, 16]}>
         {productList.map((data) => {
-          const originalData = getProduct(data.id);
+          const originalData = productData.findById(data.id);
 
           return (
             <Col lg={6} md={8} xs={24} key={data.id}>
