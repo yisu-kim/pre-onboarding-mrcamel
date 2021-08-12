@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Card, message, Typography, Button, Select } from "antd";
 import { RollbackOutlined } from "@ant-design/icons";
-import { LOCAL_STORAGE, RECENT_LIST_KEY } from "utils/constants/constants";
+import {
+  LOCAL_STORAGE,
+  RECENT_LIST_KEY,
+  ROUTES,
+} from "utils/constants/constants";
 import { getOriginalInfo } from "utils/getOriginalInfo";
 import Product from "components/Product";
 import BrandFilterMenu from "components/BrandFilterMenu";
@@ -73,7 +77,7 @@ class RecentListPage extends Component {
   };
 
   goProductListPage = () => {
-    this.props.history.push("/product");
+    this.props.history.push(ROUTES.PRODUCT);
   };
 
   componentDidMount() {
@@ -82,7 +86,7 @@ class RecentListPage extends Component {
   }
 
   goProductListPage = () => {
-    this.props.history.push("/product");
+    this.props.history.push(ROUTES.PRODUCT);
   };
 
   componentDidUpdate(prevProps, prevState) {

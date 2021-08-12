@@ -5,6 +5,7 @@ import {
   INTEREST_LIST_KEY,
   LOCAL_STORAGE,
   RECENT_LIST_KEY,
+  ROUTES,
 } from "utils/constants/constants";
 import ProductListPage from "pages/ProductListPage";
 import ProductDetailPage from "pages/ProductDetailPage";
@@ -14,12 +15,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/">
-          <Redirect to="/product" />
+        <Route exact path={ROUTES.HOME}>
+          <Redirect to={ROUTES.PRODUCT} />
         </Route>
-        <Route exact path="/product" component={ProductListPage} />
-        <Route path="/product/:productId" component={ProductDetailPage} />
-        <Route path="/recent-list" component={RecentListPage} />
+        <Route exact path={ROUTES.PRODUCT} component={ProductListPage} />
+        <Route
+          path={`${ROUTES.PRODUCT}/:productId`}
+          component={ProductDetailPage}
+        />
+        <Route path={ROUTES.RECENT_LIST} component={RecentListPage} />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Card, Col, message, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { getOriginalInfo } from "utils/getOriginalInfo";
+import { ROUTES } from "utils/constants/constants";
 
 class Product extends Component {
   constructor() {
@@ -38,7 +39,7 @@ class Product extends Component {
                   }
                   return {
                     ...location,
-                    pathname: `/product/${data.id}`,
+                    pathname: `${ROUTES.PRODUCT}/${data.id}`,
                   };
                 }}
                 onClick={() => this.handleAccessPopup(data.dislike)}

@@ -17,6 +17,7 @@ import {
   MAX_PRODUCT_ID,
   LOCAL_STORAGE,
   INTEREST_LIST_KEY,
+  ROUTES,
 } from "utils/constants/constants";
 import recentListStorage from "utils/storage/recentList";
 import {
@@ -87,11 +88,11 @@ class ProductDetailPage extends Component {
   }
 
   goRecentListPage = () => {
-    this.props.history.push("/recent-list");
+    this.props.history.push(ROUTES.RECENT_LIST);
   };
 
   goProductListPage = () => {
-    this.props.history.push("/product");
+    this.props.history.push(ROUTES.PRODUCT);
   };
 
   randomProduct(interestList, productId) {
@@ -108,7 +109,7 @@ class ProductDetailPage extends Component {
       return;
     }
     const nextProductId = this.randomProduct(interestList, productId);
-    this.props.history.push(`/product/${nextProductId}`);
+    this.props.history.push(`${ROUTES.PRODUCT}/${nextProductId}`);
     this.setState({ productId: nextProductId });
   }
 
@@ -131,14 +132,14 @@ class ProductDetailPage extends Component {
       this.setState({ disabled: true });
       return;
     }
-    this.props.history.push(`/product/${nextProductId}`);
+    this.props.history.push(`${ROUTES.PRODUCT}/${nextProductId}`);
   }
 
   render() {
     const { productId, original_data, disabled, isBlocked } = this.state;
 
     if (isBlocked) {
-      return <Redirect to="/product" />;
+      return <Redirect to={ROUTES.PRODUCT} />;
     }
 
     return (

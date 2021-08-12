@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Typography, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { INTEREST_LIST_KEY, LOCAL_STORAGE } from "utils/constants/constants";
+import {
+  INTEREST_LIST_KEY,
+  LOCAL_STORAGE,
+  ROUTES,
+} from "utils/constants/constants";
 import Product from "components/Product";
 import { ProductListContainer } from "./ProductListPageStyle";
 
@@ -28,7 +32,7 @@ class ProductListPage extends Component {
   };
 
   goRecentListPage = () => {
-    this.props.history.push("/recent-list");
+    this.props.history.push(ROUTES.RECENT_LIST);
   };
 
   componentDidMount() {
