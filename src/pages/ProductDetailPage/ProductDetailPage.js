@@ -6,13 +6,25 @@ import {
   LOCAL_STORAGE,
 } from "../../utils/constants";
 import propTypes from "prop-types";
-import { Col, Row, Typography, Button } from "antd";
-import { DetailPageContainer } from "./ProductDetailPageStyle";
+import {
+  Col,
+  Row,
+  Typography,
+  Button,
+  Card,
+  Descriptions,
+  Divider,
+} from "antd";
+import {
+  DescriptionContentContainer,
+  DescriptionContentWrapper,
+  DescriptionFollowers,
+  DetailPageContainer,
+  MainImgWrapper,
+} from "./ProductDetailPageStyle";
 import { UserOutlined } from "@ant-design/icons";
-
 const { Title } = Typography;
 import recentListStorage from "../../utils/storage/recentList";
-
 class ProductDetailPage extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +52,6 @@ class ProductDetailPage extends Component {
         params: { productId },
       },
     } = this.props;
-
     await recentListStorage.update(productId);
   }
   async componentDidMount() {
@@ -51,15 +62,12 @@ class ProductDetailPage extends Component {
     } = this.props;
     await recentListStorage.update(productId);
   }
-
   goRecentListPage = () => {
     this.props.history.push("/recent-list");
   };
-
   goProductListPage = () => {
     this.props.history.push("/product");
   };
-
   randomProduct(interestList, productId) {
     let temp = productId;
     while (temp === productId) {
@@ -67,7 +75,6 @@ class ProductDetailPage extends Component {
     }
     return interestList[temp] === undefined ? productId : interestList[temp];
   }
-
   async handleRandom(productId) {
     const interestList = await LOCAL_STORAGE.get("interestList");
     if (interestList.length <= 0) {
@@ -77,7 +84,6 @@ class ProductDetailPage extends Component {
     this.props.history.push(`/product/${nextProductId}`);
     this.setState({ productId: nextProductId });
   }
-
   async handleDislike(productId) {
     await recentListStorage.dislike(productId);
     const interestList = await LOCAL_STORAGE.get("interestList");
@@ -103,7 +109,6 @@ class ProductDetailPage extends Component {
           <Col span={16}>
             <Title>상품 상세 페이지</Title>
           </Col>
-
           <Col span={8} style={{ textAlign: "right" }}>
             <Button
               type="primary"
@@ -126,36 +131,89 @@ class ProductDetailPage extends Component {
         {productId !== -1 &&
         productId < MAX_PRODUCT_ID &&
         productId >= MIN_PRODUCT_ID ? (
-          <div style={{ display: "flex" }}>
-            <img src={original_data[productId].imgUrl} alt="productImage" />
-            <div>
-              <div>{original_data[productId].title}</div>
-              <div>{original_data[productId].brand}</div>
-              <div>{original_data[productId].price}</div>
-            </div>
-          </div>
+          <Row>
+            <Col sm={24} md={14} style={colStyle}>
+              <div style={{ width: "100%" }}>
+                <Row>
+                  <Col span={24}>
+                    <Card
+                      hoverable={true}
+                      bodyStyle={{ padding: "0" }}
+                      cover={
+                        <MainImgWrapper>
+                          <img
+                            alt="productImage"
+                            src={original_data[productId].imgUrl}
+                            style={mainImgStyle}
+                          />
+                        </MainImgWrapper>
+                      }
+                    ></Card>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+            {/* Start Description */}
+            <Col sm={24} md={10}>
+              <Card style={{ height: "100%" }} bodyStyle={cardBodyStyle}>
+                <Title level={3}>{original_data[productId].title}</Title>
+                <Divider style={{ margin: "16px 0px" }} />
+                <Descriptions column={1} colon={false}>
+                  <Descriptions.Item label="Brand">
+                    <DescriptionContentContainer>
+                      <DescriptionContentWrapper>
+                        <DescriptionFollowers>
+                          {/* <UserOutlined
+                              style={{
+                                color: "#1f29f0",
+                                marginRight: "4px",
+                              }}
+                            />{" "} */}
+                          <Typography
+                            style={{
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {original_data[productId].brand}
+                          </Typography>
+                        </DescriptionFollowers>
+                      </DescriptionContentWrapper>
+                    </DescriptionContentContainer>
+                  </Descriptions.Item>
+                  {/* Price */}
+                  <Descriptions.Item label="Price">
+                    <DescriptionContentContainer>
+                      <DescriptionContentWrapper>
+                        {original_data[productId].price}원
+                      </DescriptionContentWrapper>
+                    </DescriptionContentContainer>
+                  </Descriptions.Item>
+                </Descriptions>
+                <Divider />
+                <Button
+                  size="large"
+                  onClick={() => this.handleRandom(productId)}
+                  style={randomButtonStyle}
+                >
+                  랜덤 상품 선택
+                </Button>
+                <Button
+                  onClick={() => this.handleDislike(productId)}
+                  size="large"
+                  type="primary"
+                >
+                  관심 없음
+                </Button>
+              </Card>
+            </Col>
+          </Row>
         ) : (
           <div>존재하지 않는 상품입니다.</div>
         )}
-        <div>
-          <Button
-            onClick={() => this.handleRandom(productId)}
-            style={{ margin: "10px" }}
-          >
-            Random
-          </Button>
-          <Button
-            onClick={() => this.handleDislike(productId)}
-            style={{ margin: "10px" }}
-          >
-            Dislike
-          </Button>
-        </div>
       </DetailPageContainer>
     );
   }
 }
-
 ProductDetailPage.propTypes = {
   match: propTypes.shape({
     params: propTypes.shape({
@@ -166,5 +224,30 @@ ProductDetailPage.propTypes = {
     push: propTypes.func,
   }),
 };
-
 export default ProductDetailPage;
+
+const colStyle = {
+  alignItems: "center",
+  display: "flex",
+  flexDirection: "column",
+};
+
+const cardBodyStyle = {
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+};
+
+const mainImgStyle = {
+  objectFit: "cover",
+  height: "100%",
+  width: "100%",
+  position: "absolute",
+  top: "0px",
+  right: "0px",
+};
+
+const randomButtonStyle = {
+  marginBottom: "3rem",
+  marginTop: "2rem",
+};
