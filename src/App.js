@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Route } from "react-router-dom";
-import {
-  INTEREST_LIST,
-  LOCAL_STORAGE,
-  ROUTES,
-  STORAGE_KEYS,
-} from "utils/constants/constants";
+import { ROUTES } from "utils/constants/constants";
+import "utils/storage/init";
 import ProductList from "pages/ProductList";
 import ProductDetail from "pages/ProductDetail";
 import RecentList from "pages/RecentList";
@@ -29,10 +25,3 @@ class App extends Component {
 }
 
 export default App;
-
-if (!LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST)) {
-  LOCAL_STORAGE.set(STORAGE_KEYS.INTEREST_LIST, INTEREST_LIST);
-}
-if (!LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST)) {
-  LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, []);
-}

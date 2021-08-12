@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card, message, Button, Select } from "antd";
+import { Row, Col, Card, Button, Select } from "antd";
 import Title from "antd/lib/typography/Title";
 import { RollbackOutlined } from "@ant-design/icons";
 import { LOCAL_STORAGE, ROUTES, STORAGE_KEYS } from "utils/constants/constants";
+import { initStorage } from "utils/storage/init";
 import { getOriginalInfo } from "utils/getOriginalInfo";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
@@ -17,7 +18,6 @@ class RecentList extends Component {
     onlyInterestingProduct: false,
     filteredDatas: [],
     priceChecked: false,
-    date: new Date(),
   };
 
   static propTypes = {
@@ -27,21 +27,33 @@ class RecentList extends Component {
     }),
   };
 
-  update = () => {
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 1000);
+    this.getRecentList();
+  }
+
+  componentDidUpdate() {
+    if (
+      new Date().getDate() !== LOCAL_STORAGE.get(STORAGE_KEYS.LAST_VISITED_DATE)
+    ) {
+      initStorage();
+      this.getRecentList();
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
     this.setState({
-      date: new Date(),
+      date: new Date().getDate(),
     });
-  };
+  }
 
   getRecentList = () => {
     this.setState({
       datas: LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
-    });
-  };
-
-  clearRecentList = () => {
-    this.setState({
-      datas: LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, []),
     });
   };
 
@@ -57,12 +69,6 @@ class RecentList extends Component {
     });
   };
 
-  handleAccessPopup = (dislike) => {
-    if (dislike) {
-      message.warning("관심없는 상품으로 등록하신 상품입니다.", 1);
-    }
-  };
-
   onSelectChange = (value) => {
     value === "price"
       ? this.setState({
@@ -76,30 +82,6 @@ class RecentList extends Component {
   goProductListPage = () => {
     this.props.history.push(ROUTES.PRODUCT);
   };
-
-  componentDidMount() {
-    this.getRecentList();
-    setInterval(this.update, 1000);
-  }
-
-  goProductListPage = () => {
-    this.props.history.push(ROUTES.PRODUCT);
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    const hour = this.state.date.getHours();
-    const minute = this.state.date.getMinutes();
-    const second = this.state.date.getSeconds();
-
-    if (hour + minute + second === 0) {
-      if (prevState.date !== this.state.date) {
-        LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, []),
-          this.setState({
-            datas: LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
-          });
-      }
-    }
-  }
 
   render() {
     const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;

@@ -1,0 +1,25 @@
+import {
+  INTEREST_LIST,
+  LOCAL_STORAGE,
+  STORAGE_KEYS,
+} from "utils/constants/constants";
+
+export const initStorage = () => {
+  LOCAL_STORAGE.set(STORAGE_KEYS.INTEREST_LIST, INTEREST_LIST);
+  LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, []);
+  LOCAL_STORAGE.set(STORAGE_KEYS.LAST_VISITED_DATE, new Date().getDate());
+};
+
+if (
+  new Date().getDate() !== LOCAL_STORAGE.get(STORAGE_KEYS.LAST_VISITED_DATE)
+) {
+  initStorage();
+} else {
+  if (!LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST)) {
+    LOCAL_STORAGE.set(STORAGE_KEYS.INTEREST_LIST, INTEREST_LIST);
+  }
+
+  if (!LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST)) {
+    LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, []);
+  }
+}

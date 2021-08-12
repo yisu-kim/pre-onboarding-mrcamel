@@ -8,6 +8,7 @@ export const LOCAL_STORAGE = storage(localStorage);
 export const STORAGE_KEYS = {
   INTEREST_LIST: "interestList",
   RECENT_LIST: "recentList",
+  LAST_VISITED_DATE: "lastVisitedDate",
 };
 
 // routes
