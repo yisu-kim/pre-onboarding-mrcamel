@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Row, Col, Typography, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { LOCAL_STORAGE } from "utils/constants";
@@ -9,9 +8,15 @@ import { ProductListContainer } from "./ProductListPageStyle";
 
 const { Title } = Typography;
 
-export default class ProductListPage extends Component {
+class ProductListPage extends Component {
   state = {
     datas: [],
+  };
+
+  static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }),
   };
 
   getInterestList = () => {
@@ -59,3 +64,5 @@ export default class ProductListPage extends Component {
     );
   }
 }
+
+export default ProductListPage;

@@ -5,12 +5,6 @@ import ProductListPage from "pages/ProductListPage";
 import ProductDetailPage from "pages/ProductDetailPage";
 import RecentListPage from "pages/RecentListPage";
 
-if (!LOCAL_STORAGE.get("interestList")) {
-  LOCAL_STORAGE.set("interestList", INTEREST_LIST);
-}
-if (!LOCAL_STORAGE.get("recentList")) {
-  LOCAL_STORAGE.set("recentList", []);
-}
 class App extends Component {
   render() {
     return (
@@ -27,3 +21,10 @@ class App extends Component {
 }
 
 export default App;
+
+if (!LOCAL_STORAGE.get("interestList")) {
+  LOCAL_STORAGE.set("interestList", INTEREST_LIST);
+}
+if (!LOCAL_STORAGE.get("recentList")) {
+  LOCAL_STORAGE.set("recentList", []);
+}

@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Checkbox, Collapse } from "antd";
 import { getUniqueBrand } from "utils/getUniqueBrand";
 
@@ -8,6 +7,10 @@ export default class BrandFilterMenu extends Component {
   state = {
     datas: [],
     checked: [],
+  };
+
+  static propTypes = {
+    handleBrandFilters: PropTypes.func,
   };
 
   handleToggle = (brand) => {

@@ -5,11 +5,15 @@ import { Card, Col, message, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { getOriginalInfo } from "utils/getOriginalInfo";
 
-export default class Product extends Component {
+class Product extends Component {
   constructor() {
     super();
     this.handleAccessPopup = this.handleAccessPopup.bind(this);
   }
+
+  static propTypes = {
+    productList: PropTypes.array,
+  };
 
   handleAccessPopup(dislike) {
     if (dislike) {
@@ -59,6 +63,4 @@ export default class Product extends Component {
   }
 }
 
-Product.propTypes = {
-  productList: PropTypes.array,
-};
+export default Product;

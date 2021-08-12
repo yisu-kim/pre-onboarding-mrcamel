@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Card, Checkbox } from "antd";
 
-export default class DislikeFilter extends Component {
+class DislikeFilter extends Component {
   constructor() {
     super();
     this.handleCheckbox = this.handleCheckbox.bind(this);
   }
+
+  static propTypes = {
+    handleDislikeFilter: PropTypes.func,
+  };
 
   handleCheckbox(event) {
     this.props.handleDislikeFilter(event.target.checked);
@@ -21,6 +25,4 @@ export default class DislikeFilter extends Component {
   }
 }
 
-DislikeFilter.propTypes = {
-  handleDislikeFilter: PropTypes.func,
-};
+export default DislikeFilter;

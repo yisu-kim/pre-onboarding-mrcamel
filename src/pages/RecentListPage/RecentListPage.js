@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Card, message, Typography, Button, Select } from "antd";
@@ -10,10 +9,7 @@ import BrandFilterMenu from "components/BrandFilterMenu";
 import DislikeFilter from "components/DislikeFilter";
 import { RecentListContainer } from "./RecentListPageStyle";
 
-const { Title } = Typography;
-const { Option } = Select;
-
-export default class RecentListPage extends Component {
+class RecentListPage extends Component {
   state = {
     datas: [],
     checked: [],
@@ -22,11 +18,20 @@ export default class RecentListPage extends Component {
     priceChecked: false,
     date: new Date(),
   };
+
+  static propTypes = {
+    recentList: PropTypes.array,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }),
+  };
+
   update = () => {
     this.setState({
       date: new Date(),
     });
   };
+
   getRecentList = () => {
     this.setState({
       datas: LOCAL_STORAGE.get("recentList"),
@@ -38,16 +43,19 @@ export default class RecentListPage extends Component {
       datas: LOCAL_STORAGE.set("recentList", []),
     });
   };
+
   handleBrandFilters = (checked) => {
     this.setState({
       checked: checked,
     });
   };
+
   handleDislikeFilter = (checked) => {
     this.setState({
       onlyInterestingProduct: checked,
     });
   };
+
   handleAccessPopup = (dislike) => {
     if (dislike) {
       message.warning("관심없는 상품으로 등록하신 상품입니다.", 1);
@@ -91,6 +99,7 @@ export default class RecentListPage extends Component {
       }
     }
   }
+
   render() {
     const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
 
@@ -159,9 +168,12 @@ export default class RecentListPage extends Component {
     );
   }
 }
+
+export default RecentListPage;
+
 const buttonPositionStyle = {
   textAlign: "right",
 };
-RecentListPage.propTypes = {
-  recentList: PropTypes.array,
-};
+
+const { Title } = Typography;
+const { Option } = Select;

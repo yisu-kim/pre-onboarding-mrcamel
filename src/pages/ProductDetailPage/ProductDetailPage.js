@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import {
   Col,
   Row,
@@ -36,6 +36,18 @@ class ProductDetailPage extends Component {
       isBlocked: false,
     };
   }
+
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        productId: PropTypes.string,
+      }),
+    }),
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }),
+  };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     const productId = nextProps.match.params.productId;
     if (prevState.productId !== "-1") {
@@ -49,6 +61,7 @@ class ProductDetailPage extends Component {
     }
     return null;
   }
+
   async componentDidUpdate() {
     const {
       match: {
@@ -57,6 +70,7 @@ class ProductDetailPage extends Component {
     } = this.props;
     await recentListStorage.update(productId);
   }
+
   async componentDidMount() {
     const {
       match: {
@@ -70,12 +84,15 @@ class ProductDetailPage extends Component {
       this.setState({ isBlocked: true });
     }
   }
+
   goRecentListPage = () => {
     this.props.history.push("/recent-list");
   };
+
   goProductListPage = () => {
     this.props.history.push("/product");
   };
+
   randomProduct(interestList, productId) {
     let temp = productId;
     while (temp === productId) {
@@ -83,6 +100,7 @@ class ProductDetailPage extends Component {
     }
     return interestList[temp] === undefined ? productId : interestList[temp];
   }
+
   async handleRandom(productId) {
     const interestList = await LOCAL_STORAGE.get("interestList");
     if (interestList.length <= 0) {
@@ -92,6 +110,7 @@ class ProductDetailPage extends Component {
     this.props.history.push(`/product/${nextProductId}`);
     this.setState({ productId: nextProductId });
   }
+
   async handleDislike(productId) {
     await recentListStorage.dislike(productId);
     const interestList = await LOCAL_STORAGE.get("interestList");
@@ -234,16 +253,7 @@ class ProductDetailPage extends Component {
     );
   }
 }
-ProductDetailPage.propTypes = {
-  match: propTypes.shape({
-    params: propTypes.shape({
-      productId: propTypes.string,
-    }),
-  }),
-  history: propTypes.shape({
-    push: propTypes.func,
-  }),
-};
+
 export default ProductDetailPage;
 
 const colStyle = {
