@@ -1,4 +1,4 @@
-import { ORIGINAL_DATA } from "./constants";
+import { ORIGINAL_DATA } from "utils/constants";
 
 export const getUniqueBrand = () => {
   const uniqueBrand = {};

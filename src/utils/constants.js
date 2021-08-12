@@ -1,6 +1,6 @@
-import storage from "./storage/storage";
-import { getOriginalData } from "./getOriginalData";
-import { getInterestList } from "./getInterestList";
+import storage from "utils/storage/storage";
+import { getOriginalData } from "utils/getOriginalData";
+import { getInterestList } from "utils/getInterestList";
 
 export const LOCAL_STORAGE = storage(localStorage);
 

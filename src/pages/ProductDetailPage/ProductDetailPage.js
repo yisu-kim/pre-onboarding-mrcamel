@@ -4,7 +4,7 @@ import {
   MIN_PRODUCT_ID,
   MAX_PRODUCT_ID,
   LOCAL_STORAGE,
-} from "../../utils/constants";
+} from "utils/constants";
 import propTypes from "prop-types";
 import {
   Col,
@@ -24,7 +24,7 @@ import {
 } from "./ProductDetailPageStyle";
 import { UserOutlined } from "@ant-design/icons";
 const { Title } = Typography;
-import recentListStorage from "../../utils/storage/recentList";
+import recentListStorage from "utils/storage/recentList";
 import { Redirect } from "react-router-dom";
 import { RollbackOutlined } from "@ant-design/icons";
 

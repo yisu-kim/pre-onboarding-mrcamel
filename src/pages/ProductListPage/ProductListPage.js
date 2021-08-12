@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 
 import React, { Component } from "react";
-import { LOCAL_STORAGE } from "../../utils/constants";
+import { LOCAL_STORAGE } from "utils/constants";
 import { Row, Col, Typography, Button } from "antd";
 import { ProductListContainer } from "./ProductListPageStyle";
 import { UserOutlined } from "@ant-design/icons";
-import Product from "../../components/Product";
+import Product from "components/Product";
 
 const { Title } = Typography;
 

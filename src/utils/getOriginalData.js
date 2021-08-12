@@ -1,4 +1,4 @@
-import productData from "./productData.json";
+import productData from "utils/productData.json";
 
 export const getOriginalData = () => {
   const tempArray = [];
