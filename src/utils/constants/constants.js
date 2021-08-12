@@ -5,9 +5,10 @@ import { getInterestList } from "utils/getInterestList";
 // storage
 export const LOCAL_STORAGE = storage(localStorage);
 
-export const INTEREST_LIST_KEY = "interestList";
-
-export const RECENT_LIST_KEY = "recentList";
+export const STORAGE_KEYS = {
+  INTEREST_LIST: "interestList",
+  RECENT_LIST: "recentList",
+};
 
 // routes
 export const ROUTES = {

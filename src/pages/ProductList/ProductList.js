@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { Row, Col, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
-import {
-  INTEREST_LIST_KEY,
-  LOCAL_STORAGE,
-  ROUTES,
-} from "utils/constants/constants";
+import { LOCAL_STORAGE, ROUTES, STORAGE_KEYS } from "utils/constants/constants";
 import Product from "components/Product";
 import { CustomCol, ProductListContainer } from "./ProductListStyle";
 
@@ -24,7 +20,7 @@ class ProductList extends Component {
 
   getInterestList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.get(INTEREST_LIST_KEY).map((itemId) => ({
+      datas: LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST).map((itemId) => ({
         id: itemId,
       })),
     });

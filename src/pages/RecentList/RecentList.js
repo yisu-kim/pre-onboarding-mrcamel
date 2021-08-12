@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { Row, Col, Card, message, Button, Select } from "antd";
 import Title from "antd/lib/typography/Title";
 import { RollbackOutlined } from "@ant-design/icons";
-import {
-  LOCAL_STORAGE,
-  RECENT_LIST_KEY,
-  ROUTES,
-} from "utils/constants/constants";
+import { LOCAL_STORAGE, ROUTES, STORAGE_KEYS } from "utils/constants/constants";
 import { getOriginalInfo } from "utils/getOriginalInfo";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
@@ -39,13 +35,13 @@ class RecentList extends Component {
 
   getRecentList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.get(RECENT_LIST_KEY),
+      datas: LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
     });
   };
 
   clearRecentList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.set(RECENT_LIST_KEY, []),
+      datas: LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, []),
     });
   };
 
@@ -97,9 +93,9 @@ class RecentList extends Component {
 
     if (hour + minute + second === 0) {
       if (prevState.date !== this.state.date) {
-        LOCAL_STORAGE.set(RECENT_LIST_KEY, []),
+        LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, []),
           this.setState({
-            datas: LOCAL_STORAGE.get(RECENT_LIST_KEY),
+            datas: LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
           });
       }
     }
