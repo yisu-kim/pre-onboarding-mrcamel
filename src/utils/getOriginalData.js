@@ -6,7 +6,7 @@ export const getOriginalData = () => {
     tempArray.push({
       ...product,
       id: idx,
-      imgUrl: `https://picsum.photos/seed/${idx + 1}/200/200`,
+      imgUrl: `/images/image${(idx % 8) + 1}.jpg`,
     });
   });
   return tempArray;

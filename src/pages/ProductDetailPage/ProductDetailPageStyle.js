@@ -6,16 +6,6 @@ export const DetailPageContainer = styled.div`
   padding: 2rem;
 `;
 
-export const MainImgWrapper = styled.div`
-  min-width: 200px;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  padding-top: 75%;
-  display: flex;
-  border: none;
-`;
-
 export const DescriptionContentContainer = styled.div`
   display: flex;
   flex-direction: row;

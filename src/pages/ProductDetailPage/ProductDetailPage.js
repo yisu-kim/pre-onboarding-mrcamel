@@ -25,7 +25,6 @@ import {
   DescriptionContentWrapper,
   DescriptionFollowers,
   DetailPageContainer,
-  MainImgWrapper,
 } from "./ProductDetailPageStyle";
 
 class ProductDetailPage extends Component {
@@ -172,25 +171,11 @@ class ProductDetailPage extends Component {
         productId >= MIN_PRODUCT_ID ? (
           <Row>
             <Col sm={24} md={14} style={colStyle}>
-              <div style={{ width: "100%" }}>
-                <Row>
-                  <Col span={24}>
-                    <Card
-                      hoverable={true}
-                      bodyStyle={{ padding: "0" }}
-                      cover={
-                        <MainImgWrapper>
-                          <img
-                            alt="productImage"
-                            src={original_data[productId].imgUrl}
-                            style={mainImgStyle}
-                          />
-                        </MainImgWrapper>
-                      }
-                    ></Card>
-                  </Col>
-                </Row>
-              </div>
+              <img
+                src={original_data[productId].imgUrl}
+                alt="productImage"
+                style={mainImgStyle}
+              />
             </Col>
             {/* Start Description */}
             <Col sm={24} md={10}>
@@ -259,9 +244,8 @@ class ProductDetailPage extends Component {
 export default ProductDetailPage;
 
 const colStyle = {
-  alignItems: "center",
   display: "flex",
-  flexDirection: "column",
+  justifyContent: "center",
 };
 
 const cardBodyStyle = {
@@ -271,12 +255,7 @@ const cardBodyStyle = {
 };
 
 const mainImgStyle = {
-  objectFit: "cover",
-  height: "100%",
-  width: "100%",
-  position: "absolute",
-  top: "0px",
-  right: "0px",
+  width: "400px",
 };
 
 const randomButtonStyle = {
