@@ -5,7 +5,7 @@ import { Col, Row, Button, Descriptions, Divider, Space } from "antd";
 import Title from "antd/lib/typography/Title";
 import { UserOutlined, RollbackOutlined } from "@ant-design/icons";
 import {
-  ORIGINAL_DATA,
+  PRODUCT_DATA,
   MIN_PRODUCT_ID,
   MAX_PRODUCT_ID,
   LOCAL_STORAGE,
@@ -27,7 +27,7 @@ import {
 class ProductDetail extends Component {
   state = {
     productId: "-1",
-    original_data: ORIGINAL_DATA,
+    original_data: PRODUCT_DATA,
     disabled: false,
     isBlocked: false,
   };

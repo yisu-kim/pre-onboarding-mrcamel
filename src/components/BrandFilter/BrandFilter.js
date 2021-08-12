@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Checkbox, Collapse } from "antd";
-import { getUniqueBrand } from "utils/getUniqueBrand";
+import { UNIQUE_BRAND } from "utils/constants/constants";
 
 export default class BrandFilter extends Component {
   state = {
@@ -27,7 +27,7 @@ export default class BrandFilter extends Component {
   };
 
   render() {
-    const properties = getUniqueBrand();
+    const properties = UNIQUE_BRAND;
 
     return (
       <div>

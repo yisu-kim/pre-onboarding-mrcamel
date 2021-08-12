@@ -5,7 +5,7 @@ import Title from "antd/lib/typography/Title";
 import { RollbackOutlined } from "@ant-design/icons";
 import { LOCAL_STORAGE, ROUTES, STORAGE_KEYS } from "utils/constants/constants";
 import { initStorage } from "utils/storage/init";
-import { getOriginalInfo } from "utils/getOriginalInfo";
+import { getProduct } from "utils/product";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
 import DislikeFilter from "components/DislikeFilter";
@@ -88,7 +88,7 @@ class RecentList extends Component {
 
     let products = datas;
     products = products.map((data) => {
-      const originalData = getOriginalInfo(data.id);
+      const originalData = getProduct(data.id);
       return { ...data, price: originalData.price };
     });
 
@@ -106,7 +106,7 @@ class RecentList extends Component {
       }
     } else {
       filteredList = products.filter((data) => {
-        const originalData = getOriginalInfo(data.id);
+        const originalData = getProduct(data.id);
         return checked.includes(originalData.brand);
       });
       if (priceChecked) {

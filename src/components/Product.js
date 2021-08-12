@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Card, Col, message, Row } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { getOriginalInfo } from "utils/getOriginalInfo";
 import { ROUTES } from "utils/constants/constants";
+import { getProduct } from "utils/product";
 
 class Product extends Component {
   constructor() {
@@ -28,7 +28,7 @@ class Product extends Component {
     return (
       <Row gutter={[16, 16]}>
         {productList.map((data) => {
-          const originalData = getOriginalInfo(data.id);
+          const originalData = getProduct(data.id);
 
           return (
             <Col lg={6} md={8} xs={24} key={data.id}>
