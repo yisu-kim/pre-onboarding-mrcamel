@@ -16,6 +16,7 @@ import {
   MIN_PRODUCT_ID,
   MAX_PRODUCT_ID,
   LOCAL_STORAGE,
+  INTEREST_LIST_KEY,
 } from "utils/constants/constants";
 import recentListStorage from "utils/storage/recentList";
 import {
@@ -102,7 +103,7 @@ class ProductDetailPage extends Component {
   }
 
   async handleRandom(productId) {
-    const interestList = await LOCAL_STORAGE.get("interestList");
+    const interestList = await LOCAL_STORAGE.get(INTEREST_LIST_KEY);
     if (interestList.length <= 0) {
       return;
     }
@@ -113,7 +114,7 @@ class ProductDetailPage extends Component {
 
   async handleDislike(productId) {
     await recentListStorage.dislike(productId);
-    const interestList = await LOCAL_STORAGE.get("interestList");
+    const interestList = await LOCAL_STORAGE.get(INTEREST_LIST_KEY);
     if (interestList.length <= 0) {
       return;
     }
@@ -124,7 +125,7 @@ class ProductDetailPage extends Component {
         break;
       }
     }
-    await LOCAL_STORAGE.set("interestList", tempArray);
+    await LOCAL_STORAGE.set(INTEREST_LIST_KEY, tempArray);
     const nextProductId = this.randomProduct(tempArray, productId);
     if (productId === nextProductId) {
       this.setState({ disabled: true });

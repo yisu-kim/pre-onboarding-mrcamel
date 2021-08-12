@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Typography, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { LOCAL_STORAGE } from "utils/constants/constants";
+import { INTEREST_LIST_KEY, LOCAL_STORAGE } from "utils/constants/constants";
 import Product from "components/Product";
 import { ProductListContainer } from "./ProductListPageStyle";
 
@@ -21,7 +21,7 @@ class ProductListPage extends Component {
 
   getInterestList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.get("interestList").map((itemId) => ({
+      datas: LOCAL_STORAGE.get(INTEREST_LIST_KEY).map((itemId) => ({
         id: itemId,
       })),
     });

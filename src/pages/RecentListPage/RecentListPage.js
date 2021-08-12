@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Card, message, Typography, Button, Select } from "antd";
 import { RollbackOutlined } from "@ant-design/icons";
-import { LOCAL_STORAGE } from "utils/constants/constants";
+import { LOCAL_STORAGE, RECENT_LIST_KEY } from "utils/constants/constants";
 import { getOriginalInfo } from "utils/getOriginalInfo";
 import Product from "components/Product";
 import BrandFilterMenu from "components/BrandFilterMenu";
@@ -34,13 +34,13 @@ class RecentListPage extends Component {
 
   getRecentList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.get("recentList"),
+      datas: LOCAL_STORAGE.get(RECENT_LIST_KEY),
     });
   };
 
   clearRecentList = () => {
     this.setState({
-      datas: LOCAL_STORAGE.set("recentList", []),
+      datas: LOCAL_STORAGE.set(RECENT_LIST_KEY, []),
     });
   };
 
@@ -92,9 +92,9 @@ class RecentListPage extends Component {
 
     if (hour + minute + second === 0) {
       if (prevState.date !== this.state.date) {
-        LOCAL_STORAGE.set("recentList", []),
+        LOCAL_STORAGE.set(RECENT_LIST_KEY, []),
           this.setState({
-            datas: LOCAL_STORAGE.get("recentList"),
+            datas: LOCAL_STORAGE.get(RECENT_LIST_KEY),
           });
       }
     }

@@ -4,6 +4,10 @@ import { getInterestList } from "utils/getInterestList";
 
 export const LOCAL_STORAGE = storage(localStorage);
 
+export const INTEREST_LIST_KEY = "interestList";
+
+export const RECENT_LIST_KEY = "recentList";
+
 export const ORIGINAL_DATA = getOriginalData();
 
 export const MIN_PRODUCT_ID = 0;
