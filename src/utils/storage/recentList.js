@@ -1,13 +1,13 @@
 import { LOCAL_STORAGE, STORAGE_KEYS } from "utils/constants/constants";
 
-const get = async (productId) => {
+const get = (productId) => {
   const id = parseInt(productId);
-  const recentList = await LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
+  const recentList = LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
   return recentList.filter((item) => item.id === id)[0];
 };
 
-const update = async (productId) => {
-  const recentList = await LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
+const update = (productId) => {
+  const recentList = LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
   if (!recentList) {
     return null;
   }
@@ -27,21 +27,18 @@ const update = async (productId) => {
   }
 
   const newRecentList = removeDuplicatedItemById(
-    await LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
+    LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST),
     id
   );
-  await LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, [
-    recentItem,
-    ...newRecentList,
-  ]);
+  LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, [recentItem, ...newRecentList]);
 };
 
-const dislike = async (productId) => {
+const dislike = (productId) => {
   const id = parseInt(productId);
 
-  const recentList = await LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
+  const recentList = LOCAL_STORAGE.get(STORAGE_KEYS.RECENT_LIST);
   recentList.find((item) => item.id === id).dislike = true;
-  await LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, recentList);
+  LOCAL_STORAGE.set(STORAGE_KEYS.RECENT_LIST, recentList);
 };
 
 export default {

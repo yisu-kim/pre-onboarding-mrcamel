@@ -57,24 +57,24 @@ class ProductDetail extends Component {
     return null;
   }
 
-  async componentDidUpdate() {
+  componentDidUpdate() {
     const {
       match: {
         params: { productId },
       },
     } = this.props;
-    await recentListStorage.update(productId);
+    recentListStorage.update(productId);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const {
       match: {
         params: { productId },
       },
     } = this.props;
-    await recentListStorage.update(productId);
+    recentListStorage.update(productId);
 
-    const recentItem = await recentListStorage.get(productId);
+    const recentItem = recentListStorage.get(productId);
     if (recentItem.dislike) {
       this.setState({ isBlocked: true });
     }
@@ -89,7 +89,7 @@ class ProductDetail extends Component {
   };
 
   handleRandom = async (productId) => {
-    const interestList = await LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST);
+    const interestList = LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST);
     if (interestList.length <= 0) {
       return;
     }
@@ -98,9 +98,9 @@ class ProductDetail extends Component {
     this.setState({ productId: nextProductId });
   };
 
-  handleDislike = async (productId) => {
-    await recentListStorage.dislike(productId);
-    const interestList = await LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST);
+  handleDislike = (productId) => {
+    recentListStorage.dislike(productId);
+    const interestList = LOCAL_STORAGE.get(STORAGE_KEYS.INTEREST_LIST);
     if (interestList.length <= 0) {
       return;
     }
@@ -111,7 +111,7 @@ class ProductDetail extends Component {
         break;
       }
     }
-    await LOCAL_STORAGE.set(STORAGE_KEYS.INTEREST_LIST, tempArray);
+    LOCAL_STORAGE.set(STORAGE_KEYS.INTEREST_LIST, tempArray);
     const nextProductId = randomProduct(tempArray, productId);
     if (productId === nextProductId) {
       this.setState({ disabled: true });
