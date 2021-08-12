@@ -29,10 +29,9 @@ const updateById = (productId) => {
   }
 
   const id = parseInt(productId);
-  let recentItem;
-
   const findedItem = recentList.find((item) => item.id === id);
 
+  let recentItem;
   if (findedItem) {
     recentItem = findedItem;
   } else {
@@ -48,7 +47,6 @@ const updateById = (productId) => {
 
 const dislikeById = (productId) => {
   const id = parseInt(productId);
-
   const recentList = get();
   recentList.find((item) => item.id === id).dislike = true;
   set(recentList);

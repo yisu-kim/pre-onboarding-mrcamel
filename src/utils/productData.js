@@ -13,7 +13,8 @@ const create = () => {
   return productList;
 };
 
-const findById = (id) => {
+const findById = (productId) => {
+  const id = parseInt(productId);
   return PRODUCT_DATA.find((data) => data.id === id);
 };
 
