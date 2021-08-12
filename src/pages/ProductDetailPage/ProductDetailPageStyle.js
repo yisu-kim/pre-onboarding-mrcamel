@@ -1,3 +1,4 @@
+import { Card, Col, Row } from "antd";
 import styled from "styled-components";
 
 export const DetailPageContainer = styled.div`
@@ -22,4 +23,20 @@ export const DescriptionFollowers = styled.div`
   flex-direction: row;
   -webkit-box-align: center;
   align-items: center;
+`;
+
+export const CustomRow = styled(Row)`
+  margin: ${({ margin }) => margin};
+`;
+
+export const CustomCol = styled(Col)`
+  text-align: ${({ textalign = "left" }) => textalign};
+`;
+
+export const CustomCard = styled(Card)`
+  height: 100%;
+`;
+
+export const ProductImg = styled.img`
+  width: 400px;
 `;

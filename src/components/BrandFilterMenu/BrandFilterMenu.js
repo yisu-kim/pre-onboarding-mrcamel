@@ -32,7 +32,7 @@ export default class BrandFilterMenu extends Component {
     return (
       <div>
         <Collapse defaultActiveKey={["1"]}>
-          <Panel style={panelStyle} header="Brands" key="1">
+          <Panel header="Brands" key="1">
             {properties.map((property, index) => (
               <Checkbox
                 key={index}
@@ -47,9 +47,5 @@ export default class BrandFilterMenu extends Component {
     );
   }
 }
-
-const panelStyle = {
-  marginBottom: "10px",
-};
 
 const { Panel } = Collapse;

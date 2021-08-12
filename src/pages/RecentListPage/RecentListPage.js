@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card, message, Typography, Button, Select } from "antd";
+import { Row, Col, Card, message, Button, Select } from "antd";
+import Title from "antd/lib/typography/Title";
 import { RollbackOutlined } from "@ant-design/icons";
 import {
   LOCAL_STORAGE,
@@ -11,7 +12,7 @@ import { getOriginalInfo } from "utils/getOriginalInfo";
 import Product from "components/Product";
 import BrandFilterMenu from "components/BrandFilterMenu";
 import DislikeFilter from "components/DislikeFilter";
-import { RecentListContainer } from "./RecentListPageStyle";
+import { RecentListContainer, CustomCol } from "./RecentListPageStyle";
 
 class RecentListPage extends Component {
   state = {
@@ -141,16 +142,15 @@ class RecentListPage extends Component {
             <Col span={16}>
               <Title>상품 조회 목록 페이지</Title>
             </Col>
-            <Col span={8} style={buttonPositionStyle}>
+            <CustomCol span={8} textalign="right">
               <Button
                 type="primary"
                 icon={<RollbackOutlined />}
                 onClick={this.goProductListPage}
               >
-                {" "}
                 상품 리스트 보기
               </Button>
-            </Col>
+            </CustomCol>
           </Row>
           <Row gutter={[16, 16]}>
             <Col lg={16} md={16} xs={24}>
@@ -160,8 +160,8 @@ class RecentListPage extends Component {
               <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
               <Card size="small">
                 <Select onChange={this.onSelectChange} defaultValue="view">
-                  <Option value="view">최근 조회 순</Option>
-                  <Option value="price">낮은 가격 순</Option>
+                  <Select.Option value="view">최근 조회 순</Select.Option>
+                  <Select.Option value="price">낮은 가격 순</Select.Option>
                 </Select>
               </Card>
             </Col>
@@ -174,10 +174,3 @@ class RecentListPage extends Component {
 }
 
 export default RecentListPage;
-
-const buttonPositionStyle = {
-  textAlign: "right",
-};
-
-const { Title } = Typography;
-const { Option } = Select;

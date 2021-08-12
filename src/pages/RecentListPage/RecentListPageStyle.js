@@ -1,3 +1,4 @@
+import { Col } from "antd";
 import styled from "styled-components";
 
 export const RecentListContainer = styled.div`
@@ -10,4 +11,8 @@ export const ListTitle = styled.h3`
   font-weight: 500;
   font-size: 30px;
   padding: 20px 0;
+`;
+
+export const CustomCol = styled(Col)`
+  text-align: ${({ textalign = "left" }) => textalign};
 `;

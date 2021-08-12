@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Typography, Button } from "antd";
+import { Row, Col, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import Title from "antd/lib/typography/Title";
 import {
   INTEREST_LIST_KEY,
   LOCAL_STORAGE,
   ROUTES,
 } from "utils/constants/constants";
 import Product from "components/Product";
-import { ProductListContainer } from "./ProductListPageStyle";
-
-const { Title } = Typography;
+import { CustomCol, ProductListContainer } from "./ProductListPageStyle";
 
 class ProductListPage extends Component {
   state = {
@@ -50,16 +49,15 @@ class ProductListPage extends Component {
               <Title>상품 목록</Title>
             </Col>
 
-            <Col span={8} style={{ textAlign: "right" }}>
+            <CustomCol span={8} textalign="right">
               <Button
                 type="primary"
                 icon={<UserOutlined />}
                 onClick={this.goRecentListPage}
               >
-                {" "}
                 최근 본 상품 목록
               </Button>
-            </Col>
+            </CustomCol>
           </Row>
 
           <Product productList={datas} />
