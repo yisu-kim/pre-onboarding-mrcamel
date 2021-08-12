@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Card, Button, Select } from "antd";
-import Title from "antd/lib/typography/Title";
 import { RollbackOutlined } from "@ant-design/icons";
 import { ROUTES } from "utils/constants/constants";
 import productData from "utils/productData";
 import { initStorage } from "utils/storage/init";
 import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import recentListStorage from "utils/storage/recentList";
+import Header from "components/Header";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
 import DislikeFilter from "components/DislikeFilter";
-import { RecentListContainer, CustomCol } from "./RecentListStyle";
+import { RecentListContainer } from "./RecentListStyle";
 
 class RecentList extends Component {
   state = {
@@ -79,10 +79,6 @@ class RecentList extends Component {
         });
   };
 
-  goProductListPage = () => {
-    this.props.history.push(ROUTES.PRODUCT);
-  };
-
   render() {
     const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
 
@@ -114,41 +110,52 @@ class RecentList extends Component {
       }
     }
     return (
-      <div>
-        <RecentListContainer>
-          <Row type="flex">
-            <Col span={16}>
-              <Title>상품 조회 목록 페이지</Title>
-            </Col>
-            <CustomCol span={8} textalign="right">
-              <Button
-                type="primary"
-                icon={<RollbackOutlined />}
-                onClick={this.goProductListPage}
-              >
-                상품 리스트 보기
-              </Button>
-            </CustomCol>
-          </Row>
-          <Row gutter={[16, 16]}>
-            <Col lg={16} md={16} xs={24}>
-              <BrandFilter handleBrandFilters={this.handleBrandFilters} />
-            </Col>
-            <Col lg={8} md={8} xs={24}>
-              <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
-              <Card size="small">
-                <Select onChange={this.onSelectChange} defaultValue="view">
-                  <Select.Option value="view">최근 조회 순</Select.Option>
-                  <Select.Option value="price">낮은 가격 순</Select.Option>
-                </Select>
-              </Card>
-            </Col>
-          </Row>
-          <Product productList={filteredList} />
-        </RecentListContainer>
-      </div>
+      <RecentListContainer>
+        <Header>
+          <Menu history={this.props.history} />
+        </Header>
+        <Row gutter={[16, 16]}>
+          <Col lg={16} md={16} xs={24}>
+            <BrandFilter handleBrandFilters={this.handleBrandFilters} />
+          </Col>
+          <Col lg={8} md={8} xs={24}>
+            <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
+            <Card size="small">
+              <Select onChange={this.onSelectChange} defaultValue="view">
+                <Select.Option value="view">최근 조회 순</Select.Option>
+                <Select.Option value="price">낮은 가격 순</Select.Option>
+              </Select>
+            </Card>
+          </Col>
+        </Row>
+        <Product productList={filteredList} />
+      </RecentListContainer>
     );
   }
 }
 
 export default RecentList;
+
+class Menu extends Component {
+  static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }),
+  };
+
+  goProductListPage = () => {
+    this.props.history.push(ROUTES.PRODUCT);
+  };
+
+  render() {
+    return (
+      <Button
+        type="primary"
+        icon={<RollbackOutlined />}
+        onClick={this.goProductListPage}
+      >
+        상품 리스트 보기
+      </Button>
+    );
+  }
+}

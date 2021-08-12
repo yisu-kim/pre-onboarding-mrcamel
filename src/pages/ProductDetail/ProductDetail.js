@@ -12,6 +12,7 @@ import {
 } from "utils/constants/constants";
 import interestListStorage from "utils/storage/interestList";
 import recentListStorage from "utils/storage/recentList";
+import Header from "components/Header";
 import {
   DescriptionContentContainer,
   DescriptionContentWrapper,
@@ -79,14 +80,6 @@ class ProductDetail extends Component {
     }
   }
 
-  goRecentListPage = () => {
-    this.props.history.push(ROUTES.RECENT_LIST);
-  };
-
-  goProductListPage = () => {
-    this.props.history.push(ROUTES.PRODUCT);
-  };
-
   handleRandom = async (productId) => {
     const interestList = interestListStorage.get();
     if (interestList.length <= 0) {
@@ -128,28 +121,9 @@ class ProductDetail extends Component {
 
     return (
       <DetailPageContainer>
-        <Row gutter={[16, 16]} type="flex">
-          <Col span={16}>
-            <Title>상품 상세 페이지</Title>
-          </Col>
-          <CustomCol span={8} textalign="right">
-            <Space>
-              <Button
-                icon={<RollbackOutlined />}
-                onClick={this.goProductListPage}
-              >
-                상품 목록
-              </Button>
-              <Button
-                type="primary"
-                icon={<UserOutlined />}
-                onClick={this.goRecentListPage}
-              >
-                최근 본 상품 목록
-              </Button>
-            </Space>
-          </CustomCol>
-        </Row>
+        <Header>
+          <Menu history={this.props.history} />
+        </Header>
         {productId !== -1 &&
         productId < MAX_PRODUCT_ID &&
         productId >= MIN_PRODUCT_ID ? (
@@ -225,3 +199,36 @@ const randomProduct = (interestList, productId) => {
   }
   return interestList[temp] === undefined ? productId : interestList[temp];
 };
+
+class Menu extends Component {
+  static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }),
+  };
+
+  goRecentListPage = () => {
+    this.props.history.push(ROUTES.RECENT_LIST);
+  };
+
+  goProductListPage = () => {
+    this.props.history.push(ROUTES.PRODUCT);
+  };
+
+  render() {
+    return (
+      <Space>
+        <Button icon={<RollbackOutlined />} onClick={this.goProductListPage}>
+          상품 목록
+        </Button>
+        <Button
+          type="primary"
+          icon={<UserOutlined />}
+          onClick={this.goRecentListPage}
+        >
+          최근 본 상품 목록
+        </Button>
+      </Space>
+    );
+  }
+}
