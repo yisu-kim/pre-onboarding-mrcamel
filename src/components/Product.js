@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Card, Col, message, Row } from "antd";
-import { getOriginalInfo } from "../utils/getOriginalInfo";
 import Meta from "antd/lib/card/Meta";
-import { Link } from "react-router-dom";
+import { getOriginalInfo } from "utils/getOriginalInfo";
 
 export default class Product extends Component {
   constructor() {

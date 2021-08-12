@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  ORIGINAL_DATA,
-  MIN_PRODUCT_ID,
-  MAX_PRODUCT_ID,
-  LOCAL_STORAGE,
-} from "utils/constants";
+import { Redirect } from "react-router-dom";
 import propTypes from "prop-types";
 import {
   Col,
@@ -15,6 +10,14 @@ import {
   Descriptions,
   Divider,
 } from "antd";
+import { UserOutlined, RollbackOutlined } from "@ant-design/icons";
+import {
+  ORIGINAL_DATA,
+  MIN_PRODUCT_ID,
+  MAX_PRODUCT_ID,
+  LOCAL_STORAGE,
+} from "utils/constants";
+import recentListStorage from "utils/storage/recentList";
 import {
   DescriptionContentContainer,
   DescriptionContentWrapper,
@@ -22,11 +25,6 @@ import {
   DetailPageContainer,
   MainImgWrapper,
 } from "./ProductDetailPageStyle";
-import { UserOutlined } from "@ant-design/icons";
-const { Title } = Typography;
-import recentListStorage from "utils/storage/recentList";
-import { Redirect } from "react-router-dom";
-import { RollbackOutlined } from "@ant-design/icons";
 
 class ProductDetailPage extends Component {
   constructor(props) {
@@ -273,3 +271,5 @@ const randomButtonStyle = {
   marginBottom: "3rem",
   marginTop: "2rem",
 };
+
+const { Title } = Typography;

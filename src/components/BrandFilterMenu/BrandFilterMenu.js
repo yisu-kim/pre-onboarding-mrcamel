@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import { Checkbox, Collapse } from "antd";
 import { getUniqueBrand } from "utils/getUniqueBrand";
-const { Panel } = Collapse;
 
 export default class BrandFilterMenu extends Component {
   state = {
@@ -49,3 +48,5 @@ export default class BrandFilterMenu extends Component {
 const panelStyle = {
   marginBottom: "10px",
 };
+
+const { Panel } = Collapse;
