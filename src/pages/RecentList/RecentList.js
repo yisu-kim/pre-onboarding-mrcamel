@@ -7,11 +7,10 @@ import productData from "utils/productData";
 import { initStorage } from "utils/storage/init";
 import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import recentListStorage from "utils/storage/recentList";
-import Header from "components/Header";
+import Layout from "components/Layout";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
 import DislikeFilter from "components/DislikeFilter";
-import { RecentListContainer } from "./RecentListStyle";
 
 class RecentList extends Component {
   state = {
@@ -110,10 +109,7 @@ class RecentList extends Component {
       }
     }
     return (
-      <RecentListContainer>
-        <Header>
-          <Menu history={this.props.history} />
-        </Header>
+      <Layout menu={<Menu history={this.props.history} />}>
         <Row gutter={[16, 16]}>
           <Col lg={16} md={16} xs={24}>
             <BrandFilter handleBrandFilters={this.handleBrandFilters} />
@@ -129,7 +125,7 @@ class RecentList extends Component {
           </Col>
         </Row>
         <Product productList={filteredList} />
-      </RecentListContainer>
+      </Layout>
     );
   }
 }

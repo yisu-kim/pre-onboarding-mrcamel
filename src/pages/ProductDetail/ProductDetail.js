@@ -12,17 +12,16 @@ import {
 } from "utils/constants/constants";
 import interestListStorage from "utils/storage/interestList";
 import recentListStorage from "utils/storage/recentList";
-import Header from "components/Header";
 import {
   DescriptionContentContainer,
   DescriptionContentWrapper,
   DescriptionFollowers,
-  DetailPageContainer,
   CustomCol,
   CustomCard,
   ProductImg,
   CustomRow,
 } from "./ProductDetailStyle";
+import Layout from "components/Layout";
 
 class ProductDetail extends Component {
   state = {
@@ -120,10 +119,7 @@ class ProductDetail extends Component {
     }
 
     return (
-      <DetailPageContainer>
-        <Header>
-          <Menu history={this.props.history} />
-        </Header>
+      <Layout menu={<Menu history={this.props.history} />}>
         {productId !== -1 &&
         productId < MAX_PRODUCT_ID &&
         productId >= MIN_PRODUCT_ID ? (
@@ -185,7 +181,7 @@ class ProductDetail extends Component {
         ) : (
           <div>존재하지 않는 상품입니다.</div>
         )}
-      </DetailPageContainer>
+      </Layout>
     );
   }
 }

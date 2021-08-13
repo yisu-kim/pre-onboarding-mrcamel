@@ -6,7 +6,7 @@ import { ROUTES } from "utils/constants/constants";
 
 class Header extends Component {
   static propTypes = {
-    children: PropTypes.oneOfType([
+    menu: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.element),
       PropTypes.element,
     ]),
@@ -20,7 +20,7 @@ class Header extends Component {
             <img alt="logo" src="/logo.png" />
           </Link>
         </Col>
-        <Col>{this.props.children}</Col>
+        <Col>{this.props.menu}</Col>
       </Row>
     );
   }

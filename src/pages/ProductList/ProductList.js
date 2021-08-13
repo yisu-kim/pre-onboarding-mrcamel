@@ -6,9 +6,8 @@ import { ROUTES } from "utils/constants/constants";
 import { initStorage } from "utils/storage/init";
 import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import interestListStorage from "utils/storage/interestList";
-import Header from "components/Header";
+import Layout from "components/Layout";
 import Product from "components/Product";
-import { ProductListContainer } from "./ProductListStyle";
 
 class ProductList extends Component {
   state = {
@@ -55,12 +54,9 @@ class ProductList extends Component {
     const { datas } = this.state;
 
     return (
-      <ProductListContainer>
-        <Header>
-          <Menu history={this.props.history} />
-        </Header>
+      <Layout menu={<Menu history={this.props.history} />}>
         <Product productList={datas} />
-      </ProductListContainer>
+      </Layout>
     );
   }
 }

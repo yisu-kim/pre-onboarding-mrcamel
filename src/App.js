@@ -9,7 +9,7 @@ import RecentList from "pages/RecentList";
 class App extends Component {
   render() {
     return (
-      <div>
+      <>
         <Route exact path={ROUTES.HOME}>
           <Redirect to={ROUTES.PRODUCT} />
         </Route>
@@ -19,7 +19,7 @@ class App extends Component {
           component={ProductDetail}
         />
         <Route path={ROUTES.RECENT_LIST} component={RecentList} />
-      </div>
+      </>
     );
   }
 }
