@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card, Button, Select } from "antd";
-import { RollbackOutlined } from "@ant-design/icons";
-import { ORDER_BY, ROUTES } from "utils/constants/constants";
+import { Row, Col, Card, Select } from "antd";
+import { ORDER_BY } from "utils/constants/constants";
 import productData from "utils/productData";
 import { initStorage } from "utils/storage/init";
 import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
@@ -11,6 +10,7 @@ import Layout from "components/Layout";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
 import DislikeFilter from "components/DislikeFilter";
+import Menu from "./Menu";
 
 class RecentList extends Component {
   state = {
@@ -123,30 +123,6 @@ class RecentList extends Component {
 }
 
 export default RecentList;
-
-class Menu extends Component {
-  static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }),
-  };
-
-  goProductListPage = () => {
-    this.props.history.push(ROUTES.PRODUCT);
-  };
-
-  render() {
-    return (
-      <Button
-        type="primary"
-        icon={<RollbackOutlined />}
-        onClick={this.goProductListPage}
-      >
-        상품 리스트 보기
-      </Button>
-    );
-  }
-}
 
 const filterProduct = (products, isInteresting, checkedBrands) => {
   let filtered = [...products];

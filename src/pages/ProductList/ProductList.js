@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Row } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { ROUTES } from "utils/constants/constants";
+import { Row } from "antd";
 import { initStorage } from "utils/storage/init";
 import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import interestListStorage from "utils/storage/interestList";
+import productData from "utils/productData";
 import Layout from "components/Layout";
 import Product from "components/Product";
-import productData from "utils/productData";
+import Menu from "./Menu";
 
 class ProductList extends Component {
   state = {
@@ -67,27 +66,3 @@ class ProductList extends Component {
 }
 
 export default ProductList;
-
-class Menu extends Component {
-  static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }),
-  };
-
-  goRecentListPage = () => {
-    this.props.history.push(ROUTES.RECENT_LIST);
-  };
-
-  render() {
-    return (
-      <Button
-        type="primary"
-        icon={<UserOutlined />}
-        onClick={this.goRecentListPage}
-      >
-        최근 본 상품 목록
-      </Button>
-    );
-  }
-}

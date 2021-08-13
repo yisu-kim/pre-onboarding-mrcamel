@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Col, Row, Button, Descriptions, Divider, Space } from "antd";
 import Title from "antd/lib/typography/Title";
-import { UserOutlined, RollbackOutlined } from "@ant-design/icons";
 import {
   PRODUCT_DATA,
   MIN_PRODUCT_ID,
@@ -22,6 +21,7 @@ import {
   CustomRow,
 } from "./ProductDetailStyle";
 import Layout from "components/Layout";
+import Menu from "./Menu";
 
 class ProductDetail extends Component {
   state = {
@@ -195,36 +195,3 @@ const randomProduct = (interestList, productId) => {
   }
   return interestList[temp] === undefined ? productId : interestList[temp];
 };
-
-class Menu extends Component {
-  static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }),
-  };
-
-  goRecentListPage = () => {
-    this.props.history.push(ROUTES.RECENT_LIST);
-  };
-
-  goProductListPage = () => {
-    this.props.history.push(ROUTES.PRODUCT);
-  };
-
-  render() {
-    return (
-      <Space>
-        <Button icon={<RollbackOutlined />} onClick={this.goProductListPage}>
-          상품 목록
-        </Button>
-        <Button
-          type="primary"
-          icon={<UserOutlined />}
-          onClick={this.goRecentListPage}
-        >
-          최근 본 상품 목록
-        </Button>
-      </Space>
-    );
-  }
-}
