@@ -3,13 +3,12 @@ import PropTypes from "prop-types";
 import { Row, Space } from "antd";
 import { ORDER_BY } from "utils/constants/constants";
 import productData from "utils/productData";
-import { initStorage } from "utils/storage/init";
-import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import recentListStorage from "utils/storage/recentList";
 import Layout from "components/Layout";
 import Product from "components/Product";
 import Menu from "./Menu";
 import FilterBar from "./FilterBar";
+import Clock from "components/Clock";
 
 class RecentList extends Component {
   state = {
@@ -27,25 +26,7 @@ class RecentList extends Component {
   };
 
   componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
     this.getRecentList();
-  }
-
-  componentDidUpdate() {
-    if (new Date().getDate() !== lastVisitedDateStorage.get()) {
-      initStorage();
-      this.getRecentList();
-    }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date().getDate(),
-    });
   }
 
   getRecentList = () => {
@@ -90,22 +71,25 @@ class RecentList extends Component {
     let sorted = sortProduct(filtered, orderBy);
 
     return (
-      <Layout menu={<Menu history={this.props.history} />}>
-        <Space direction="vertical" size={24}>
-          <FilterBar
-            handleBrandFilters={this.handleBrandFilters}
-            handleDislikeFilter={this.handleDislikeFilter}
-            handleSortingFilter={this.handleSortingFilter}
-          />
-          {sorted.length > 0 && (
-            <Row gutter={[16, 16]}>
-              {sorted.map((product) => (
-                <Product key={product.id} product={product} />
-              ))}
-            </Row>
-          )}
-        </Space>
-      </Layout>
+      <>
+        <Clock handleStorageUpdate={this.getRecentList} />
+        <Layout menu={<Menu history={this.props.history} />}>
+          <Space direction="vertical" size={24}>
+            <FilterBar
+              handleBrandFilters={this.handleBrandFilters}
+              handleDislikeFilter={this.handleDislikeFilter}
+              handleSortingFilter={this.handleSortingFilter}
+            />
+            {sorted.length > 0 && (
+              <Row gutter={[16, 16]}>
+                {sorted.map((product) => (
+                  <Product key={product.id} product={product} />
+                ))}
+              </Row>
+            )}
+          </Space>
+        </Layout>
+      </>
     );
   }
 }
