@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Checkbox, Collapse } from "antd";
+import { Checkbox } from "antd";
 import { UNIQUE_BRAND } from "utils/constants/constants";
 
 export default class BrandFilter extends Component {
@@ -30,22 +30,16 @@ export default class BrandFilter extends Component {
     const properties = UNIQUE_BRAND;
 
     return (
-      <div>
-        <Collapse defaultActiveKey={["1"]}>
-          <Panel header="Brands" key="1">
-            {properties.map((property, index) => (
-              <Checkbox
-                key={index}
-                onChange={() => this.handleToggle(property.value)}
-              >
-                {property.label}
-              </Checkbox>
-            ))}
-          </Panel>
-        </Collapse>
-      </div>
+      <>
+        {properties.map((property, index) => (
+          <Checkbox
+            key={index}
+            onChange={() => this.handleToggle(property.value)}
+          >
+            {property.label}
+          </Checkbox>
+        ))}
+      </>
     );
   }
 }
-
-const { Panel } = Collapse;

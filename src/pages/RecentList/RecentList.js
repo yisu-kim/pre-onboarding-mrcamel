@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card } from "antd";
+import { Row, Space } from "antd";
 import { ORDER_BY } from "utils/constants/constants";
 import productData from "utils/productData";
 import { initStorage } from "utils/storage/init";
@@ -8,10 +8,8 @@ import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import recentListStorage from "utils/storage/recentList";
 import Layout from "components/Layout";
 import Product from "components/Product";
-import BrandFilter from "components/BrandFilter";
-import DislikeFilter from "components/DislikeFilter";
-import SortingFilter from "components/SortingFilter";
 import Menu from "./Menu";
+import FilterBar from "./FilterBar";
 
 class RecentList extends Component {
   state = {
@@ -93,24 +91,20 @@ class RecentList extends Component {
 
     return (
       <Layout menu={<Menu history={this.props.history} />}>
-        <Row gutter={[16, 16]}>
-          <Col lg={16} md={16} xs={24}>
-            <BrandFilter handleBrandFilters={this.handleBrandFilters} />
-          </Col>
-          <Col lg={8} md={8} xs={24}>
-            <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
-            <Card size="small">
-              <SortingFilter handleSortingFilter={this.handleSortingFilter} />
-            </Card>
-          </Col>
-        </Row>
-        {sorted.length > 0 && (
-          <Row gutter={[16, 16]}>
-            {sorted.map((product) => (
-              <Product key={product.id} product={product} />
-            ))}
-          </Row>
-        )}
+        <Space direction="vertical" size={24}>
+          <FilterBar
+            handleBrandFilters={this.handleBrandFilters}
+            handleDislikeFilter={this.handleDislikeFilter}
+            handleSortingFilter={this.handleSortingFilter}
+          />
+          {sorted.length > 0 && (
+            <Row gutter={[16, 16]}>
+              {sorted.map((product) => (
+                <Product key={product.id} product={product} />
+              ))}
+            </Row>
+          )}
+        </Space>
       </Layout>
     );
   }
