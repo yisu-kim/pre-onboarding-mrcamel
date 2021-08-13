@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card, Select } from "antd";
+import { Row, Col, Card } from "antd";
 import { ORDER_BY } from "utils/constants/constants";
 import productData from "utils/productData";
 import { initStorage } from "utils/storage/init";
@@ -10,6 +10,7 @@ import Layout from "components/Layout";
 import Product from "components/Product";
 import BrandFilter from "components/BrandFilter";
 import DislikeFilter from "components/DislikeFilter";
+import SortingFilter from "components/SortingFilter";
 import Menu from "./Menu";
 
 class RecentList extends Component {
@@ -69,7 +70,7 @@ class RecentList extends Component {
     });
   };
 
-  onSelectChange = (selected) => {
+  handleSortingFilter = (selected) => {
     switch (selected) {
       case ORDER_BY.VIEW:
         this.setState({
@@ -99,14 +100,7 @@ class RecentList extends Component {
           <Col lg={8} md={8} xs={24}>
             <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
             <Card size="small">
-              <Select onChange={this.onSelectChange} defaultValue="view">
-                <Select.Option value={ORDER_BY.VIEW}>
-                  최근 조회 순
-                </Select.Option>
-                <Select.Option value={ORDER_BY.PRICE}>
-                  낮은 가격 순
-                </Select.Option>
-              </Select>
+              <SortingFilter handleSortingFilter={this.handleSortingFilter} />
             </Card>
           </Col>
         </Row>
