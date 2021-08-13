@@ -24,9 +24,26 @@ const isExist = () => {
   return !!get();
 };
 
+const removeById = (productId) => {
+  const id = parseInt(productId);
+  const interestList = get();
+
+  let newInterestList = [];
+  for (let i = 0; i < interestList.length; i++) {
+    if (interestList[i] === id) {
+      newInterestList = interestList
+        .slice(0, i)
+        .concat(interestList.slice(i + 1));
+      break;
+    }
+  }
+  return newInterestList;
+};
+
 export default {
   get,
   set,
   init,
   isExist,
+  removeById,
 };

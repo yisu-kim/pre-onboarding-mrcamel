@@ -47,9 +47,9 @@ const updateById = (productId) => {
 
 const dislikeById = (productId) => {
   const id = parseInt(productId);
-  const recentList = get();
-  recentList.find((item) => item.id === id).dislike = true;
-  set(recentList);
+
+  const newRecentList = removeDuplicatedItemById(get(), id);
+  set([{ ...findById(id), dislike: true }, ...newRecentList]);
 };
 
 const removeDuplicatedItemById = (arr, id) => {

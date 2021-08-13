@@ -20,10 +20,6 @@ export const ROUTES = {
 // data
 export const PRODUCT_DATA = productData.create();
 
-export const MIN_PRODUCT_ID = 0;
-
-export const MAX_PRODUCT_ID = PRODUCT_DATA.length;
-
 export const UNIQUE_BRAND = productData.getUniqueBrand();
 
 // sort

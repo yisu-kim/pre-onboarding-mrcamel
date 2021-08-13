@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row } from "antd";
+import { message, Row } from "antd";
 import { initStorage } from "utils/storage/init";
 import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import interestListStorage from "utils/storage/interestList";
@@ -22,6 +22,12 @@ class ProductList extends Component {
 
   componentDidMount() {
     this.timerID = setInterval(() => this.tick(), 1000);
+    const interestList = interestListStorage.get();
+    if (interestList.length <= 0) {
+      message.warning("모든 상품을 확인하셨습니다.", 1);
+      return;
+    }
+
     this.getInterestList();
   }
 

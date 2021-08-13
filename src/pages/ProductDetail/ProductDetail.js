@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Col, Row, Button, Descriptions, Divider, Space } from "antd";
+import { Col, Row, Button, Descriptions, Divider, Space, message } from "antd";
 import Title from "antd/lib/typography/Title";
-import {
-  PRODUCT_DATA,
-  MIN_PRODUCT_ID,
-  MAX_PRODUCT_ID,
-  ROUTES,
-} from "utils/constants/constants";
+import { ROUTES } from "utils/constants/constants";
+import productData from "utils/productData";
 import interestListStorage from "utils/storage/interestList";
 import recentListStorage from "utils/storage/recentList";
 import {
@@ -18,17 +14,15 @@ import {
   CustomCol,
   CustomCard,
   ProductImg,
-  CustomRow,
 } from "./ProductDetailStyle";
 import Layout from "components/Layout";
 import Menu from "./Menu";
 
 class ProductDetail extends Component {
   state = {
-    productId: "-1",
-    original_data: PRODUCT_DATA,
+    product: {},
+    nextProductId: -1,
     disabled: false,
-    isBlocked: false,
   };
 
   static propTypes = {
@@ -42,145 +36,130 @@ class ProductDetail extends Component {
     }),
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const productId = nextProps.match.params.productId;
-    if (prevState.productId !== "-1") {
-      return { productId: parseInt(productId) };
-    } else if (
-      (parseInt(productId) >= MIN_PRODUCT_ID &&
-        parseInt(productId) < MAX_PRODUCT_ID) ||
-      prevState.productId !== parseInt(productId)
-    ) {
-      return { productId: parseInt(productId) };
-    }
-    return null;
-  }
-
-  componentDidUpdate() {
-    const {
-      match: {
-        params: { productId },
-      },
-    } = this.props;
-    recentListStorage.updateById(productId);
-  }
-
   componentDidMount() {
     const {
       match: {
         params: { productId },
       },
     } = this.props;
-    recentListStorage.updateById(productId);
 
-    const recentItem = recentListStorage.findById(productId);
-    if (recentItem.dislike) {
-      this.setState({ isBlocked: true });
+    if (productId >= 0) {
+      recentListStorage.updateById(productId);
+
+      this.setState({
+        product: {
+          ...productData.findById(productId),
+          ...recentListStorage.findById(productId),
+        },
+      });
     }
   }
 
-  handleRandom = async (productId) => {
-    const interestList = interestListStorage.get();
-    if (interestList.length <= 0) {
-      return;
+  componentDidUpdate() {
+    const { nextProductId } = this.state;
+    if (nextProductId > 0) {
+      recentListStorage.updateById(nextProductId);
+
+      this.setState({
+        nextProductId: -1,
+        product: {
+          ...productData.findById(nextProductId),
+          ...recentListStorage.findById(nextProductId),
+        },
+      });
+
+      this.props.history.push(`${ROUTES.PRODUCT}/${nextProductId}`);
     }
-    const nextProductId = randomProduct(interestList, productId);
-    this.props.history.push(`${ROUTES.PRODUCT}/${nextProductId}`);
-    this.setState({ productId: nextProductId });
+  }
+
+  handleRandom = () => {
+    const {
+      product: { id },
+    } = this.state;
+    const interestList = interestListStorage.get();
+    if (interestList.length === 1) {
+      message.warning("마지막 상품입니다.", 1);
+    }
+
+    const nextProductId = randomProduct(interestList, id);
+    this.setState({ nextProductId });
   };
 
-  handleDislike = (productId) => {
-    recentListStorage.dislikeById(productId);
-    const interestList = interestListStorage.get();
-    if (interestList.length <= 0) {
-      return;
-    }
-    let tempArray = [];
-    for (let i = 0; i < interestList.length; i++) {
-      if (interestList[i] === productId) {
-        tempArray = interestList.slice(0, i).concat(interestList.slice(i + 1));
-        break;
-      }
-    }
-    interestListStorage.set(tempArray);
-    const nextProductId = randomProduct(tempArray, productId);
-    if (productId === nextProductId) {
-      this.setState({ disabled: true });
-      return;
-    }
-    this.props.history.push(`${ROUTES.PRODUCT}/${nextProductId}`);
+  handleDislike = () => {
+    const {
+      product: { id },
+    } = this.state;
+    recentListStorage.dislikeById(id);
+
+    const newInterestList = interestListStorage.removeById(id);
+    interestListStorage.set(newInterestList);
+
+    const nextProductId = randomProduct(newInterestList, id);
+
+    this.setState({ nextProductId });
   };
 
   render() {
-    const { productId, original_data, disabled, isBlocked } = this.state;
+    const { product, disabled } = this.state;
 
-    if (isBlocked) {
+    if (product.dislike) {
       return <Redirect to={ROUTES.PRODUCT} />;
     }
 
     return (
       <Layout menu={<Menu history={this.props.history} />}>
-        {productId !== -1 &&
-        productId < MAX_PRODUCT_ID &&
-        productId >= MIN_PRODUCT_ID ? (
-          <>
-            <Row>
-              <CustomCol sm={24} md={14} textalign="center">
-                <ProductImg
-                  src={original_data[productId].imgUrl}
-                  alt="product image"
-                />
-              </CustomCol>
-              {/* Start Description */}
-              <Col sm={24} md={10}>
-                <CustomCard>
-                  <Title level={3}>{original_data[productId].title}</Title>
-                  <Divider />
-                  <Descriptions column={1} colon={false}>
-                    <Descriptions.Item label="Brand">
-                      <DescriptionContentContainer>
-                        <DescriptionContentWrapper>
-                          <DescriptionFollowers>
-                            {original_data[productId].brand}
-                          </DescriptionFollowers>
-                        </DescriptionContentWrapper>
-                      </DescriptionContentContainer>
-                    </Descriptions.Item>
-                    {/* Price */}
-                    <Descriptions.Item label="Price">
-                      <DescriptionContentContainer>
-                        <DescriptionContentWrapper>
-                          {original_data[productId].price}원
-                        </DescriptionContentWrapper>
-                      </DescriptionContentContainer>
-                    </Descriptions.Item>
-                  </Descriptions>
-                </CustomCard>
-              </Col>
-            </Row>
-            <CustomRow justify="center" margin="5em 0 0">
-              <Space>
-                <Button
-                  onClick={() => this.handleDislike(productId)}
-                  size="large"
-                  disabled={disabled}
-                >
-                  관심 없음
-                </Button>
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={() => this.handleRandom(productId)}
-                  disabled={disabled}
-                >
-                  랜덤 상품
-                </Button>
-              </Space>
-            </CustomRow>
-          </>
-        ) : (
-          <div>존재하지 않는 상품입니다.</div>
-        )}
+        <Space direction="vertical" size={24}>
+          <Row>
+            <CustomCol sm={24} md={14} textalign="center">
+              <ProductImg src={product.imgUrl} alt="product image" />
+            </CustomCol>
+            {/* Start Description */}
+            <Col sm={24} md={10}>
+              <CustomCard>
+                <Title level={3}>{product.title}</Title>
+                <Divider />
+                <Descriptions column={1} colon={false}>
+                  <Descriptions.Item label="Brand">
+                    <DescriptionContentContainer>
+                      <DescriptionContentWrapper>
+                        <DescriptionFollowers>
+                          {product.brand}
+                        </DescriptionFollowers>
+                      </DescriptionContentWrapper>
+                    </DescriptionContentContainer>
+                  </Descriptions.Item>
+                  {/* Price */}
+                  <Descriptions.Item label="Price">
+                    <DescriptionContentContainer>
+                      <DescriptionContentWrapper>
+                        {product.price}원
+                      </DescriptionContentWrapper>
+                    </DescriptionContentContainer>
+                  </Descriptions.Item>
+                </Descriptions>
+              </CustomCard>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Space>
+              <Button
+                onClick={this.handleDislike}
+                size="large"
+                disabled={disabled}
+              >
+                관심 없음
+              </Button>
+              <Button
+                type="primary"
+                size="large"
+                onClick={this.handleRandom}
+                disabled={disabled}
+              >
+                랜덤 상품
+              </Button>
+            </Space>
+          </Row>
+        </Space>
       </Layout>
     );
   }
