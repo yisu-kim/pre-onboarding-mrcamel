@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Card, Button, Select } from "antd";
 import { RollbackOutlined } from "@ant-design/icons";
-import { ROUTES } from "utils/constants/constants";
+import { ORDER_BY, ROUTES } from "utils/constants/constants";
 import productData from "utils/productData";
 import { initStorage } from "utils/storage/init";
 import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
@@ -14,11 +14,10 @@ import DislikeFilter from "components/DislikeFilter";
 
 class RecentList extends Component {
   state = {
-    datas: [],
-    checked: [],
-    onlyInterestingProduct: false,
-    filteredDatas: [],
-    priceChecked: false,
+    products: [],
+    checkedBrands: [],
+    isInteresting: false,
+    orderBy: "",
   };
 
   static propTypes = {
@@ -52,62 +51,45 @@ class RecentList extends Component {
 
   getRecentList = () => {
     this.setState({
-      datas: recentListStorage.get(),
+      products: recentListStorage
+        .get()
+        .map((item) => ({ ...item, ...productData.findById(item.id) })),
     });
   };
 
-  handleBrandFilters = (checked) => {
+  handleBrandFilters = (brands) => {
     this.setState({
-      checked: checked,
+      checkedBrands: brands,
     });
   };
 
   handleDislikeFilter = (checked) => {
     this.setState({
-      onlyInterestingProduct: checked,
+      isInteresting: checked,
     });
   };
 
-  onSelectChange = (value) => {
-    value === "price"
-      ? this.setState({
-          priceChecked: true,
-        })
-      : this.setState({
-          priceChecked: false,
+  onSelectChange = (selected) => {
+    switch (selected) {
+      case ORDER_BY.VIEW:
+        this.setState({
+          orderBy: ORDER_BY.VIEW,
         });
+        break;
+      case ORDER_BY.PRICE:
+        this.setState({
+          orderBy: ORDER_BY.PRICE,
+        });
+        break;
+    }
   };
 
   render() {
-    const { datas, checked, onlyInterestingProduct, priceChecked } = this.state;
+    const { products, checkedBrands, isInteresting, orderBy } = this.state;
 
-    let products = datas;
-    products = products.map((data) => {
-      const originalData = productData.findById(data.id);
-      return { ...data, price: originalData.price };
-    });
+    let filtered = filterProduct(products, isInteresting, checkedBrands);
+    let sorted = sortProduct(filtered, orderBy);
 
-    let filteredList;
-    const compareFunction = (a, b) => {
-      return a.price - b.price;
-    };
-    if (onlyInterestingProduct) {
-      products = products.filter((data) => data.dislike === false);
-    }
-    if (checked.length === 0) {
-      filteredList = products;
-      if (priceChecked) {
-        filteredList = products.sort(compareFunction);
-      }
-    } else {
-      filteredList = products.filter((data) => {
-        const originalData = productData.findById(data.id);
-        return checked.includes(originalData.brand);
-      });
-      if (priceChecked) {
-        filteredList = filteredList.sort(compareFunction);
-      }
-    }
     return (
       <Layout menu={<Menu history={this.props.history} />}>
         <Row gutter={[16, 16]}>
@@ -118,13 +100,23 @@ class RecentList extends Component {
             <DislikeFilter handleDislikeFilter={this.handleDislikeFilter} />
             <Card size="small">
               <Select onChange={this.onSelectChange} defaultValue="view">
-                <Select.Option value="view">최근 조회 순</Select.Option>
-                <Select.Option value="price">낮은 가격 순</Select.Option>
+                <Select.Option value={ORDER_BY.VIEW}>
+                  최근 조회 순
+                </Select.Option>
+                <Select.Option value={ORDER_BY.PRICE}>
+                  낮은 가격 순
+                </Select.Option>
               </Select>
             </Card>
           </Col>
         </Row>
-        <Product productList={filteredList} />
+        {sorted.length > 0 && (
+          <Row gutter={[16, 16]}>
+            {sorted.map((product) => (
+              <Product key={product.id} product={product} />
+            ))}
+          </Row>
+        )}
       </Layout>
     );
   }
@@ -155,3 +147,35 @@ class Menu extends Component {
     );
   }
 }
+
+const filterProduct = (products, isInteresting, checkedBrands) => {
+  let filtered = [...products];
+
+  if (isInteresting) {
+    filtered = filtered.filter((product) => product.dislike === false);
+  }
+
+  if (checkedBrands.length > 0) {
+    filtered = filtered.filter((product) =>
+      checkedBrands.includes(product.brand)
+    );
+  }
+
+  return filtered;
+};
+
+const sortProduct = (filtered, orderBy) => {
+  let sorted = [...filtered];
+
+  switch (orderBy) {
+    case ORDER_BY.VIEW:
+      break;
+    case ORDER_BY.PRICE:
+      sorted = sorted.sort((a, b) => {
+        return a.price - b.price;
+      });
+      break;
+  }
+
+  return sorted;
+};

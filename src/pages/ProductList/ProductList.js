@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button } from "antd";
+import { Button, Row } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { ROUTES } from "utils/constants/constants";
 import { initStorage } from "utils/storage/init";
@@ -8,10 +8,11 @@ import lastVisitedDateStorage from "utils/storage/lastVisitedDate";
 import interestListStorage from "utils/storage/interestList";
 import Layout from "components/Layout";
 import Product from "components/Product";
+import productData from "utils/productData";
 
 class ProductList extends Component {
   state = {
-    datas: [],
+    products: [],
   };
 
   static propTypes = {
@@ -44,18 +45,22 @@ class ProductList extends Component {
 
   getInterestList = () => {
     this.setState({
-      datas: interestListStorage.get().map((itemId) => ({
-        id: itemId,
-      })),
+      products: interestListStorage.get().map((id) => productData.findById(id)),
     });
   };
 
   render() {
-    const { datas } = this.state;
+    const { products } = this.state;
 
     return (
       <Layout menu={<Menu history={this.props.history} />}>
-        <Product productList={datas} />
+        {products.length > 0 && (
+          <Row gutter={[16, 16]}>
+            {products.map((product) => (
+              <Product key={product.id} product={product} />
+            ))}
+          </Row>
+        )}
       </Layout>
     );
   }
