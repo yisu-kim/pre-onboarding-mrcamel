@@ -29,9 +29,8 @@ class Product extends Component {
       <Row gutter={[16, 16]}>
         {productList.map((data) => {
           const originalData = productData.findById(data.id);
-
           return (
-            <Col lg={6} md={8} xs={24} key={data.id}>
+            <Col xl={6} lg={8} md={12} xs={24} key={data.id}>
               <Link
                 to={(location) => {
                   if (data.dislike) {

@@ -19,11 +19,11 @@ class Layout extends Component {
     return (
       <>
         <Row gutter={[0, 16]} justify="center">
-          <Col span={20} md={18} lg={16}>
+          <Col xs={22} sm={20} md={18} xl={16}>
             <Header menu={this.props.menu}></Header>
           </Col>
 
-          <Col span={20} md={18} lg={16}>
+          <Col xs={22} sm={20} md={18} xl={16}>
             <div>{this.props.children}</div>
           </Col>
         </Row>
