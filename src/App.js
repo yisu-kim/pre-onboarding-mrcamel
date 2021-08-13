@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { ROUTES } from "utils/constants/constants";
 import "utils/storage/init";
 import ProductList from "pages/ProductList";
 import ProductDetail from "pages/ProductDetail";
 import RecentList from "pages/RecentList";
+import NotFound from "pages/NotFound";
 
 class App extends Component {
   render() {
     return (
-      <>
+      <Switch>
         <Route exact path={ROUTES.HOME}>
           <Redirect to={ROUTES.PRODUCT} />
         </Route>
@@ -19,7 +20,8 @@ class App extends Component {
           component={ProductDetail}
         />
         <Route path={ROUTES.RECENT_LIST} component={RecentList} />
-      </>
+        <Route component={NotFound} />
+      </Switch>
     );
   }
 }
