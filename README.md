@@ -10,7 +10,10 @@
   <p align="center">
     프리온보딩 코스 Mr.Camel 기업 과제
     <br />
-    <a href="https://mr-camel.netlify.app/"><strong>View Demo »</strong></a>
+    <br />
+    <a href="https://mr-camel.netlify.app/">View Demo</a>
+    ·
+    <a href="https://github.com/six-sense/1_mrCamel_team1">Original Team Repo</a>
   </p>
 </p>
 
@@ -53,8 +56,22 @@
 
 ## About The Project
 
+### 상품 목록 페이지
+
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/37607373/133888377-1093575c-bd62-4d7e-868e-f1813a9ca49a.png" alt="project screenshot" height=600 />
+  <img src="https://user-images.githubusercontent.com/37607373/133924764-adbc3523-6a11-4986-b8ce-9a2eba20ac31.gif" alt="project product list page screenshot" height=600 />
+</p>
+
+### 상품 상세 페이지
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/37607373/133924865-0eb496be-55d5-4fed-aff8-d8dc8b574ef1.gif" alt="project product detail page screenshot" height=600 />
+</p>
+
+### 상품 조회이력 페이지
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/37607373/133924697-346915b5-841a-49c0-9f9b-93c3159e78d5.gif" alt="project recent list page screenshot" height=600 />
 </p>
 
 ### Built With
@@ -112,7 +129,7 @@ npm start
 - 00시 상품 이력 초기화 기능의 기준을 시분초에서 날짜로 변경
 - constants와 utils 정리, 컴포넌트 재사용
 
-## Member
+## Members
 
 - [yisu-kim](https://github.com/yisu-kim)
 - [tTab1204](https://github.com/tTab1204)
