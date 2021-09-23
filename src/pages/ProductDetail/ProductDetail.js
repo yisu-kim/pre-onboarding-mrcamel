@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Col, Row, Button, Descriptions, Divider, Space, message } from "antd";
-import Title from "antd/lib/typography/Title";
-import { ROUTES } from "utils/constants/constants";
-import productData from "utils/productData";
-import interestListStorage from "utils/storage/interestList";
-import recentListStorage from "utils/storage/recentList";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Col, Row, Button, Descriptions, Divider, Space, message } from 'antd';
+import Title from 'antd/lib/typography/Title';
+import { ROUTES } from 'utils/constants/constants';
+import productData from 'utils/productData';
+import interestListStorage from 'utils/storage/interestList';
+import recentListStorage from 'utils/storage/recentList';
 import {
   DescriptionContentContainer,
   DescriptionContentWrapper,
@@ -14,9 +14,9 @@ import {
   CustomCol,
   CustomCard,
   ProductImg,
-} from "./ProductDetailStyle";
-import Layout from "components/Layout";
-import Menu from "./Menu";
+} from './ProductDetailStyle';
+import Layout from 'components/Layout';
+import Menu from './Menu';
 
 class ProductDetail extends Component {
   state = {
@@ -44,7 +44,7 @@ class ProductDetail extends Component {
     } = this.props;
 
     if (productId >= 0) {
-      recentListStorage.updateById(productId);
+      recentListStorage.addOrUpdateById(productId);
 
       this.setState({
         product: {
@@ -58,7 +58,7 @@ class ProductDetail extends Component {
   componentDidUpdate() {
     const { nextProductId } = this.state;
     if (nextProductId > 0) {
-      recentListStorage.updateById(nextProductId);
+      recentListStorage.addOrUpdateById(nextProductId);
 
       this.setState({
         nextProductId: -1,
@@ -78,7 +78,7 @@ class ProductDetail extends Component {
     } = this.state;
     const interestList = interestListStorage.get();
     if (interestList.length === 1) {
-      message.warning("마지막 상품입니다.", 1);
+      message.warning('마지막 상품입니다.', 1);
     }
 
     const nextProductId = randomProduct(interestList, id);
@@ -108,10 +108,10 @@ class ProductDetail extends Component {
 
     return (
       <Layout menu={<Menu history={this.props.history} />}>
-        <Space direction="vertical" size={24}>
+        <Space direction='vertical' size={24}>
           <Row>
-            <CustomCol sm={24} md={14} textalign="center">
-              <ProductImg src={product.imgUrl} alt="product image" />
+            <CustomCol sm={24} md={14} textalign='center'>
+              <ProductImg src={product.imgUrl} alt='product image' />
             </CustomCol>
             {/* Start Description */}
             <Col sm={24} md={10}>
@@ -119,7 +119,7 @@ class ProductDetail extends Component {
                 <Title level={3}>{product.title}</Title>
                 <Divider />
                 <Descriptions column={1} colon={false}>
-                  <Descriptions.Item label="Brand">
+                  <Descriptions.Item label='Brand'>
                     <DescriptionContentContainer>
                       <DescriptionContentWrapper>
                         <DescriptionFollowers>
@@ -129,7 +129,7 @@ class ProductDetail extends Component {
                     </DescriptionContentContainer>
                   </Descriptions.Item>
                   {/* Price */}
-                  <Descriptions.Item label="Price">
+                  <Descriptions.Item label='Price'>
                     <DescriptionContentContainer>
                       <DescriptionContentWrapper>
                         {product.price}원
@@ -140,18 +140,18 @@ class ProductDetail extends Component {
               </CustomCard>
             </Col>
           </Row>
-          <Row justify="center">
+          <Row justify='center'>
             <Space>
               <Button
                 onClick={this.handleDislike}
-                size="large"
+                size='large'
                 disabled={disabled}
               >
                 관심 없음
               </Button>
               <Button
-                type="primary"
-                size="large"
+                type='primary'
+                size='large'
                 onClick={this.handleRandom}
                 disabled={disabled}
               >

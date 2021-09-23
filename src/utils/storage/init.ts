@@ -1,8 +1,8 @@
-import interestList from "./interestList";
-import lastVisitedDate from "./lastVisitedDate";
-import recentList from "./recentList";
+import interestList from './interestList';
+import lastVisitedDate from './lastVisitedDate';
+import recentList from './recentList';
 
-export const initStorage = () => {
+export const initStorage = (): void => {
   interestList.init();
   recentList.init();
   lastVisitedDate.init();
