@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { ROUTES } from "utils/constants/constants";
-import "utils/storage/init";
-import ProductList from "pages/ProductList";
-import ProductDetail from "pages/ProductDetail";
-import RecentList from "pages/RecentList";
-import NotFound from "pages/NotFound";
+import { Component } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { ROUTES } from 'utils/constants/constants';
+import 'utils/storage/init';
+import ProductList from 'pages/ProductList';
+import ProductDetail from 'pages/ProductDetail';
+import RecentList from 'pages/RecentList';
+import NotFound from 'pages/NotFound';
 
 class App extends Component {
-  render() {
+  render(): JSX.Element {
     return (
       <Switch>
         <Route exact path={ROUTES.HOME}>
