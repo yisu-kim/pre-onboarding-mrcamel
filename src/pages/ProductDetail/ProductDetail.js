@@ -90,9 +90,8 @@ class ProductDetail extends Component {
       product: { id },
     } = this.state;
     recentListStorage.dislikeById(id);
-
-    const newInterestList = interestListStorage.removeById(id);
-    interestListStorage.set(newInterestList);
+    interestListStorage.removeById(id);
+    const newInterestList = interestListStorage.get();
 
     const nextProductId = randomProduct(newInterestList, id);
 
