@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Select } from "antd";
-import { ORDER_BY } from "utils/constants/constants";
+import { Component } from 'react';
+import { Select } from 'antd';
+import { ORDER_BY } from 'utils/constants/constants';
 
-class SortingFilter extends Component {
-  static propTypes = {
-    handleSortingFilter: PropTypes.func,
-  };
+type SortingFilterProps = {
+  handleSortingFilter: (value: string) => void;
+};
 
-  render() {
+class SortingFilter extends Component<SortingFilterProps> {
+  render(): JSX.Element {
     return (
       <Select
         defaultValue={ORDER_BY.VIEW}
