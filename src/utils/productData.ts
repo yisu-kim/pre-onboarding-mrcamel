@@ -1,7 +1,7 @@
 import productData from 'utils/data/productData.json';
 import { PRODUCT_DATA } from './constants/constants';
 
-type Product = {
+export type Product = {
   title: string;
   brand: string;
   price: number;
