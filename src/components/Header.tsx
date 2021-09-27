@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 import { ROUTES } from 'utils/constants/constants';
 
 type HeaderProps = {
-  menu: JSX.Element;
+  menu?: JSX.Element;
 };
 
 class Header extends Component<HeaderProps> {
@@ -16,7 +16,7 @@ class Header extends Component<HeaderProps> {
             <img alt='logo' src='/logo.png' />
           </Link>
         </Col>
-        <Col>{this.props.menu}</Col>
+        {this.props.menu && <Col>{this.props.menu}</Col>}
       </Row>
     );
   }

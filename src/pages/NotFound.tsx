@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Row, Typography } from "antd";
-import Layout from "components/Layout";
+import { Component } from 'react';
+import { Row, Typography } from 'antd';
+import Layout from 'components/Layout';
 
 class NotFound extends Component {
-  render() {
+  render(): JSX.Element {
     return (
       <Layout>
-        <Row justify="center">
+        <Row justify='center'>
           <Typography.Title>NOT FOUND</Typography.Title>
         </Row>
       </Layout>

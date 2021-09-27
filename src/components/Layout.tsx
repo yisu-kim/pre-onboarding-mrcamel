@@ -3,7 +3,7 @@ import { Col, Row } from 'antd';
 import Header from 'components/Header';
 
 type LayoutProps = {
-  menu: JSX.Element;
+  menu?: JSX.Element;
   children: JSX.Element;
 };
 
