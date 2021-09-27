@@ -1,5 +1,5 @@
-import { Card, Col } from "antd";
-import styled from "styled-components";
+import { Card, Col } from 'antd';
+import styled from 'styled-components';
 
 export const DetailPageContainer = styled.div`
   max-width: 1100px;
@@ -25,8 +25,8 @@ export const DescriptionFollowers = styled.div`
   align-items: center;
 `;
 
-export const CustomCol = styled(Col)`
-  text-align: ${({ textalign = "left" }) => textalign};
+export const CustomCol = styled(Col)<{ textalign: string }>`
+  text-align: ${({ textalign = 'left' }) => textalign};
 `;
 
 export const CustomCard = styled(Card)`

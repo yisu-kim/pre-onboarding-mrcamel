@@ -1,7 +1,7 @@
 import { STORAGE_KEYS } from 'utils/constants/constants';
 import LocalStorageWrapper from './storage';
 
-type RecentItem = { id: number; dislike: boolean };
+export type RecentItem = { id: number; dislike: boolean };
 const recentListStorage = new LocalStorageWrapper<RecentItem[]>();
 
 const get = (): RecentItem[] | null => {
