@@ -7,6 +7,7 @@ export type Product = {
   price: number;
   id: number;
   imgUrl: string;
+  dislike: boolean;
 };
 
 const create = (): Product[] => {
@@ -16,13 +17,13 @@ const create = (): Product[] => {
       ...product,
       id: idx,
       imgUrl: `/images/image${(idx % 8) + 1}.jpg`,
+      dislike: false,
     });
   });
   return productList;
 };
 
-const findById = (productId: string): Product | undefined => {
-  const id = parseInt(productId);
+const findById = (id: number): Product | undefined => {
   return PRODUCT_DATA.find((data) => data.id === id);
 };
 

@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { Card, Col, message } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { ROUTES } from 'utils/constants/constants';
-import { Product as ProductType } from 'utils/productData';
+import { Product as ProductItem } from 'utils/productData';
 
 type ProductProps = {
-  product: ProductType & { dislike: boolean };
+  product: ProductItem;
 };
 
 class Product extends Component<ProductProps> {

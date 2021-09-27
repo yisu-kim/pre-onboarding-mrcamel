@@ -4,7 +4,7 @@ import Header from 'components/Header';
 
 type LayoutProps = {
   menu?: JSX.Element;
-  children: JSX.Element;
+  children: JSX.Element | false;
 };
 
 class Layout extends Component<LayoutProps> {
