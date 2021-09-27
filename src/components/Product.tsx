@@ -4,9 +4,10 @@ import { Card, Col, message } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { ROUTES } from 'utils/constants/constants';
 import { Product as ProductItem } from 'utils/productData';
+import { RecentItem } from 'utils/storage/recentList';
 
 type ProductProps = {
-  product: ProductItem;
+  product: ProductItem & RecentItem;
 };
 
 class Product extends Component<ProductProps> {

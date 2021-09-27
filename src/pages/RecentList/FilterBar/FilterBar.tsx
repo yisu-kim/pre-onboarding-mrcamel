@@ -1,19 +1,18 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Card, Row } from "antd";
-import BrandFilter from "components/BrandFilter";
-import DislikeFilter from "components/DislikeFilter";
-import SortingFilter from "components/SortingFilter";
-import style from "./FilterBarStyle";
+import { Component } from 'react';
+import { Card, Row } from 'antd';
+import BrandFilter from 'components/BrandFilter';
+import DislikeFilter from 'components/DislikeFilter';
+import SortingFilter from 'components/SortingFilter';
+import style from './FilterBarStyle';
 
-class FilterBar extends Component {
-  static propTypes = {
-    handleBrandFilters: PropTypes.func,
-    handleDislikeFilter: PropTypes.func,
-    handleSortingFilter: PropTypes.func,
-  };
+type FilterBarProps = {
+  handleBrandFilters: (brands: string[]) => void;
+  handleDislikeFilter: (checked: boolean) => void;
+  handleSortingFilter: (selected: string) => void;
+};
 
-  render() {
+class FilterBar extends Component<FilterBarProps> {
+  render(): JSX.Element {
     return (
       <Card>
         <Row>

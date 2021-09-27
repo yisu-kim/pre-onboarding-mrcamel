@@ -1,55 +1,61 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Row, Space } from "antd";
-import { ORDER_BY } from "utils/constants/constants";
-import productData from "utils/productData";
-import recentListStorage from "utils/storage/recentList";
-import Layout from "components/Layout";
-import Product from "components/Product";
-import Menu from "./Menu";
-import FilterBar from "./FilterBar";
-import Clock from "components/Clock";
+import { Component } from 'react';
+import { RouteComponentProps } from 'react-router';
+import { Row, Space } from 'antd';
+import { ORDER_BY } from 'utils/constants/constants';
+import productData, { Product as ProductItem } from 'utils/productData';
+import recentListStorage, { RecentItem } from 'utils/storage/recentList';
+import Layout from 'components/Layout';
+import Product from 'components/Product';
+import Menu from './Menu';
+import FilterBar from './FilterBar';
+import Clock from 'components/Clock';
 
-class RecentList extends Component {
-  state = {
+type RecentListProps = {
+  recentList: RecentItem[];
+  history: RouteComponentProps['history'];
+};
+
+type RecentListState = {
+  products: (ProductItem & RecentItem)[];
+  checkedBrands: string[];
+  isInteresting: boolean;
+  orderBy: string;
+};
+
+class RecentList extends Component<RecentListProps, RecentListState> {
+  state: RecentListState = {
     products: [],
     checkedBrands: [],
     isInteresting: false,
-    orderBy: "",
+    orderBy: '',
   };
 
-  static propTypes = {
-    recentList: PropTypes.array,
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }),
-  };
-
-  componentDidMount() {
+  componentDidMount(): void {
     this.getRecentList();
   }
 
-  getRecentList = () => {
+  getRecentList = (): void => {
     this.setState({
-      products: recentListStorage
-        .get()
-        .map((item) => ({ ...item, ...productData.findById(item.id) })),
+      products: (recentListStorage.get() as RecentItem[]).map((item) => ({
+        ...item,
+        ...productData.findById(item.id),
+      })) as (ProductItem & RecentItem)[],
     });
   };
 
-  handleBrandFilters = (brands) => {
+  handleBrandFilters = (brands: string[]): void => {
     this.setState({
       checkedBrands: brands,
     });
   };
 
-  handleDislikeFilter = (checked) => {
+  handleDislikeFilter = (checked: boolean): void => {
     this.setState({
       isInteresting: checked,
     });
   };
 
-  handleSortingFilter = (selected) => {
+  handleSortingFilter = (selected: string): void => {
     switch (selected) {
       case ORDER_BY.VIEW:
         this.setState({
@@ -64,17 +70,17 @@ class RecentList extends Component {
     }
   };
 
-  render() {
+  render(): JSX.Element {
     const { products, checkedBrands, isInteresting, orderBy } = this.state;
 
-    let filtered = filterProduct(products, isInteresting, checkedBrands);
-    let sorted = sortProduct(filtered, orderBy);
+    const filtered = filterProduct(products, isInteresting, checkedBrands);
+    const sorted = sortProduct(filtered, orderBy);
 
     return (
       <>
         <Clock handleStorageUpdate={this.getRecentList} />
         <Layout menu={<Menu history={this.props.history} />}>
-          <Space direction="vertical" size={24}>
+          <Space direction='vertical' size={24}>
             <FilterBar
               handleBrandFilters={this.handleBrandFilters}
               handleDislikeFilter={this.handleDislikeFilter}
@@ -96,7 +102,11 @@ class RecentList extends Component {
 
 export default RecentList;
 
-const filterProduct = (products, isInteresting, checkedBrands) => {
+const filterProduct = (
+  products: (ProductItem & RecentItem)[],
+  isInteresting: boolean,
+  checkedBrands: string[]
+) => {
   let filtered = [...products];
 
   if (isInteresting) {
@@ -112,7 +122,10 @@ const filterProduct = (products, isInteresting, checkedBrands) => {
   return filtered;
 };
 
-const sortProduct = (filtered, orderBy) => {
+const sortProduct = (
+  filtered: (ProductItem & RecentItem)[],
+  orderBy: string
+) => {
   let sorted = [...filtered];
 
   switch (orderBy) {

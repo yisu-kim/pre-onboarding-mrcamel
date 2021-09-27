@@ -7,13 +7,14 @@ import Layout from 'components/Layout';
 import Product from 'components/Product';
 import Clock from 'components/Clock';
 import Menu from './Menu';
+import recentListStorage, { RecentItem } from 'utils/storage/recentList';
 
 type ProductListProps = {
   history: RouteComponentProps['history'];
 };
 
 type ProductListState = {
-  products: ProductItem[];
+  products: (ProductItem & RecentItem)[];
 };
 
 class ProductList extends Component<ProductListProps, ProductListState> {
@@ -34,9 +35,10 @@ class ProductList extends Component<ProductListProps, ProductListState> {
 
   getInterestList = (): void => {
     this.setState({
-      products: (interestListStorage.get() as number[]).map((id) =>
-        productData.findById(id)
-      ) as ProductItem[],
+      products: (interestListStorage.get() as number[]).map((id) => ({
+        ...productData.findById(id),
+        ...recentListStorage.findById(id),
+      })) as (ProductItem & RecentItem)[],
     });
   };
 

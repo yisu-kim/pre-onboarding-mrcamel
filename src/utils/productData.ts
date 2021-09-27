@@ -7,7 +7,6 @@ export type Product = {
   price: number;
   id: number;
   imgUrl: string;
-  dislike: boolean;
 };
 
 const create = (): Product[] => {
@@ -17,7 +16,6 @@ const create = (): Product[] => {
       ...product,
       id: idx,
       imgUrl: `/images/image${(idx % 8) + 1}.jpg`,
-      dislike: false,
     });
   });
   return productList;
