@@ -128,6 +128,7 @@ npm start
 - setInterval로 인한 불필요한 리렌더링 제거
 - 00시 상품 이력 초기화 기능의 기준을 시분초에서 날짜로 변경
 - constants와 utils 정리, 컴포넌트 재사용
+- TypeScript로 변환
 
 ## Members
 
