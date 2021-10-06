@@ -77,6 +77,7 @@
 ### Built With
 
 - React
+- TypeScript
 - React Router
 - antd
 - styled-components
