@@ -1,5 +1,5 @@
 import productData from 'utils/data/productData.json';
-import { PRODUCT_DATA } from './constants/constants';
+import { PRODUCT_DATA } from '../constants/constants';
 
 export type Product = {
   title: string;
@@ -21,14 +21,16 @@ const create = (): Product[] => {
   return productList;
 };
 
+export const PRODUCT_LIST = create();
+
 const findById = (id: number): Product | undefined => {
-  return PRODUCT_DATA.find((data) => data.id === id);
+  return PRODUCT_LIST.find((data) => data.id === id);
 };
 
 const getUniqueBrand = (): { label: string; value: string }[] => {
   type UniqueBrand = { [brand: string]: boolean };
   const uniqueBrand: UniqueBrand = {};
-  PRODUCT_DATA.filter(({ brand }) => {
+  PRODUCT_LIST.filter(({ brand }) => {
     if (uniqueBrand[brand]) {
       return false;
     }

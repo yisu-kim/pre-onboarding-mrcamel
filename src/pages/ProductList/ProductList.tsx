@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { message, Row } from 'antd';
 import interestListStorage from 'utils/storage/interestList';
-import productData, { Product as ProductItem } from 'utils/productData';
+import productData, { Product as ProductItem } from 'utils/data/productData';
 import Layout from 'components/Layout';
 import Product from 'components/Product';
 import Clock from 'components/Clock';
