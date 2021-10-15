@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Col, message } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { ROUTES } from 'utils/constants/constants';
-import { Product as ProductItem } from 'utils/productData';
+import { Product as ProductItem } from 'utils/data/productData';
 import { RecentItem } from 'utils/storage/recentList';
 
 type ProductProps = {

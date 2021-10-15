@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Row, Space } from 'antd';
 import { ORDER_BY } from 'utils/constants/constants';
-import productData, { Product as ProductItem } from 'utils/productData';
+import productData, { Product as ProductItem } from 'utils/data/productData';
 import recentListStorage, { RecentItem } from 'utils/storage/recentList';
 import Layout from 'components/Layout';
 import Product from 'components/Product';

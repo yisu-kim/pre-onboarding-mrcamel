@@ -3,7 +3,7 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { Col, Row, Button, Descriptions, Divider, Space, message } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import { PRODUCT_DATA, ROUTES } from 'utils/constants/constants';
-import productData, { Product } from 'utils/productData';
+import productData, { Product } from 'utils/data/productData';
 import interestListStorage from 'utils/storage/interestList';
 import recentListStorage, { RecentItem } from 'utils/storage/recentList';
 import {

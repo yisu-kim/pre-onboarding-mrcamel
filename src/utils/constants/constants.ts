@@ -1,5 +1,5 @@
 import LocalStorageWrapper from 'utils/storage/storage';
-import productData from 'utils/productData';
+import productData from 'utils/data/productData';
 
 // storage
 export const LOCAL_STORAGE = new LocalStorageWrapper();
